@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Vettori sparsi</title>
+    <link href="https://fonts.googleapis.com/css?family=Fira+Code:300,600|Fira+Sans:300,600&display=swap&subset=latin-ext" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css" href="https://use.fontawesome.com/releases/v5.10.1/css/all.css"/>
+    <link rel="stylesheet" type="text/css" href="assets/css/vs.css"/>
+    <style>
+      html {
+	  font-family: "Fira Sans", sans-serif;
+	  font-size: 16pt;
+	  background-image: url('assets/images/background.png');
+	  background-attachment: fixed;
+	  margin: 0;
+	  padding: 0;
+      }
+
+      pre, code {
+	  font-family: "Fira Code", monospace;
+      }
+
+      body {
+	  max-width: 900px;
+	  margin: 1ex auto;
+	  counter-reset: chapter;
+	  background-color: white;
+	  padding: 16px 32px;
+	  box-shadow: 0 0 4px 4px #A0A0A0;
+	  border-radius: 8px;
+      }
+
+      h1 {
+	  font-weight: 300;
+	  color: white;
+	  background: #004080;
+	  text-align: center;
+	  margin: -16px -32px 16px -32px;
+	  padding: 16px 32px;
+	  border-radius: 8px 8px 0 0;
+      }
+
+      h2 {
+	  /* margin: 0 -32px; */
+	  padding: 4px 0 0 0;
+      }
+
+      i.fas, i.far {
+	  font-size: smaller;
+	  margin: 0 0.25ex;
+      }
+
+      a, a:visited {
+	  color: teal;
+	  text-decoration: none;
+      }
+
+      a:hover {
+	  color: white;
+	  background-color: teal;
+	  border-radius: 0.5ex;
+	  margin: 0.1ex -0.25ex;
+	  padding: 0.1ex 0.25ex;
+	  text-decoration: none;
+      }
+
+      .legend {
+	  display: inline-block;
+	  width: 300px;
+	  padding: 0 8px 0 0;
+	  float: right;
+	  font-size: small;
+	  background: orange;
+	  border-radius: 3px;
+      }
+
+      .footer {
+	  display: inline-block;
+	  font-size: small;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root" class="index">
+      <h1 id="vettori-sparsi">Vettori sparsi</h1>
+
+<h2 id="coppie">Coppie</h2>
+
+<p>La classe <code class="language-plaintext highlighter-rouge">std::pair&lt;T,S&gt;</code> rappresenta la famiglia delle <strong>coppie</strong>
+in cui la <strong>prima componente</strong> ha tipo <code class="language-plaintext highlighter-rouge">T</code> e la <strong>seconda
+componente</strong> ha tipo <code class="language-plaintext highlighter-rouge">S</code></p>
+
+<h2 id="esempio">Esempio</h2>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;string&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;utility&gt;</span><span class="c1"> // le coppie sono definite qui</span><span class="cp">
+</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">pair</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">p</span><span class="p">(</span><span class="mi">2020</span><span class="p">,</span> <span class="s">"Prog. avanzata"</span><span class="p">);</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">p</span><span class="p">.</span><span class="n">first</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span>  <span class="c1">// prima componente</span>
+        <span class="o">&lt;&lt;</span> <span class="n">p</span><span class="p">.</span><span class="n">second</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>    <span class="c1">// seconda componente</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h2 id="nota">Nota</h2>
+
+<ul>
+  <li>Le componenti di una coppia sono memorizzate in due <strong>campi
+pubblici</strong> chiamati <code class="language-plaintext highlighter-rouge">first</code> e <code class="language-plaintext highlighter-rouge">second</code></li>
+</ul>
+
+<h1 id="caso-di-studio-vettori-sparsi">Caso di studio: vettori sparsi</h1>
+
+<p>Un vettore (di numeri) si dice <strong>sparso</strong> se “quasi tutti” i suoi
+elementi sono 0</p>
+
+<h2 id="esempio-1">Esempio</h2>
+
+<div class="skip" style="margin-top: 1em"></div>
+
+<table>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td><strong>1</strong></td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td><strong>2</strong></td>
+      <td>0</td>
+      <td>0</td>
+      <td>…</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td><strong>6</strong></td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="osservazione">Osservazione</h2>
+
+<ul>
+  <li>Rappresentare un vettore sparso con <code class="language-plaintext highlighter-rouge">std::vector</code> comporta uno
+<strong>spreco di memoria</strong> (quasi tutti gli elementi sono zero!)</li>
+</ul>
+
+<h2 id="idea">Idea</h2>
+
+<ul>
+  <li>Usiamo una <strong>lista</strong> che contiene solo gli elementi <strong>non nulli</strong>
+del vettore</li>
+  <li><strong class="red">Problema</strong>: la posizione di un elemento nella lista non
+corrisponde più (necessariamente) al suo indice</li>
+  <li><strong class="green">Soluzione</strong>: ogni elemento della lista è una <em>coppia</em>
+$(i, x)$ dove $i$ è l’indice dell’elemento e $x \ne 0$ il suo
+valore</li>
+</ul>
+
+<h1 id="rappresentazione-di-un-vettore-sparso">Rappresentazione di un vettore sparso</h1>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;list&gt;</span><span class="cp">
+</span>
+<span class="k">class</span> <span class="nc">SparseVector</span> <span class="p">{</span>
+<span class="nl">private:</span>
+  <span class="k">typedef</span> <span class="n">std</span><span class="o">::</span><span class="n">pair</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="kt">int</span><span class="o">&gt;</span> <span class="n">E</span><span class="p">;</span>
+  <span class="k">typedef</span> <span class="n">std</span><span class="o">::</span><span class="n">list</span><span class="o">&lt;</span><span class="n">E</span><span class="o">&gt;</span> <span class="n">L</span><span class="p">;</span>
+  <span class="kt">int</span> <span class="n">_size</span><span class="p">;</span> <span class="c1">// _size &gt;= 0</span>
+  <span class="n">L</span> <span class="n">data</span><span class="p">;</span>    <span class="c1">// max _size coppie ordinate in base alla</span>
+  <span class="p">...</span>        <span class="c1">// prima componente, la seconda != 0</span>
+<span class="p">};</span>
+</code></pre></div></div>
+
+<h2 id="note">Note</h2>
+
+<ul>
+  <li>Si definiscono i <strong>tipi membro</strong> <code class="language-plaintext highlighter-rouge">E</code> ed <code class="language-plaintext highlighter-rouge">L</code> per evitare di
+scrivere ripetutamente tipi “lunghi” (servirà spesso fare
+riferimento a questi tipi).</li>
+  <li>Nella classe si possono usare direttamente i nomi <code class="language-plaintext highlighter-rouge">E</code> ed <code class="language-plaintext highlighter-rouge">L</code></li>
+  <li>Fuori dalla classe si deve scrivere <code class="language-plaintext highlighter-rouge">SparseVector::L</code> per indicare
+che si intende utilizzare il tipo <code class="language-plaintext highlighter-rouge">L</code> definito nella classe
+<code class="language-plaintext highlighter-rouge">SparseVector</code></li>
+  <li>Il campo <code class="language-plaintext highlighter-rouge">_size</code> è necessario in quanto il numero di elementi
+nella lista <code class="language-plaintext highlighter-rouge">data</code> non riflette più la dimensione del vettore</li>
+</ul>
+
+<h1 id="inizializzazione-e-dimensione">Inizializzazione e dimensione</h1>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">SparseVector</span> <span class="p">{</span>
+<span class="nl">private:</span>
+  <span class="p">...</span>
+<span class="nl">public:</span>
+  <span class="n">SparseVector</span><span class="p">(</span><span class="kt">int</span><span class="p">);</span>
+  <span class="kt">int</span> <span class="n">size</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">_size</span><span class="p">;</span> <span class="p">}</span>
+  <span class="kt">int</span> <span class="k">operator</span><span class="p">[](</span><span class="kt">int</span><span class="p">)</span> <span class="k">const</span><span class="p">;</span>
+  <span class="kt">void</span> <span class="n">set</span><span class="p">(</span><span class="kt">int</span><span class="p">,</span> <span class="kt">int</span><span class="p">);</span>
+  <span class="p">...</span>
+<span class="p">};</span>
+
+<span class="n">SparseVector</span><span class="o">::</span><span class="n">SparseVector</span><span class="p">(</span><span class="kt">int</span> <span class="n">s</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">s</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="k">throw</span> <span class="n">std</span><span class="o">::</span><span class="n">domain_error</span><span class="p">(</span><span class="s">"invalid size"</span><span class="p">);</span>
+  <span class="n">_size</span> <span class="o">=</span> <span class="n">s</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h2 id="note-1">Note</h2>
+
+<ul>
+  <li>Definiamo l’operatore <code class="language-plaintext highlighter-rouge">[]</code> per <strong>leggere</strong> un elemento</li>
+  <li><strong>Non definiamo</strong> l’operatore <code class="language-plaintext highlighter-rouge">[]</code> per <strong>scrivere</strong> <a href="contenitori.html#accesso">come fatto in
+<code class="language-plaintext highlighter-rouge">Vector</code></a> per poter controllare che non
+si inserisca un elemento nullo</li>
+</ul>
+
+<h1 id="lettura-tramite-iteratore-12">Lettura tramite iteratore (1/2)</h1>
+
+<h1 id="lettura">Lettura tramite iteratore (2/2)</h1>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="n">SparseVector</span><span class="o">::</span><span class="k">operator</span><span class="p">[](</span><span class="kt">int</span> <span class="n">i</span><span class="p">)</span> <span class="k">const</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="o">||</span> <span class="n">i</span> <span class="o">&gt;=</span> <span class="n">_size</span><span class="p">)</span>
+    <span class="k">throw</span> <span class="n">std</span><span class="o">::</span><span class="n">domain_error</span><span class="p">(</span><span class="s">"invalid index"</span><span class="p">);</span>
+  <span class="n">L</span><span class="o">::</span><span class="n">const_iterator</span> <span class="n">it</span> <span class="o">=</span> <span class="n">data</span><span class="p">.</span><span class="n">cbegin</span><span class="p">();</span>
+  <span class="k">while</span> <span class="p">(</span><span class="n">it</span> <span class="o">!=</span> <span class="n">data</span><span class="p">.</span><span class="n">cend</span><span class="p">()</span> <span class="o">&amp;&amp;</span> <span class="n">it</span><span class="o">-&gt;</span><span class="n">first</span> <span class="o">&lt;</span> <span class="n">i</span><span class="p">)</span> <span class="n">it</span><span class="o">++</span><span class="p">;</span>
+  <span class="k">return</span> <span class="n">it</span> <span class="o">!=</span> <span class="n">data</span><span class="p">.</span><span class="n">cend</span><span class="p">()</span> <span class="o">&amp;&amp;</span> <span class="n">it</span><span class="o">-&gt;</span><span class="n">first</span> <span class="o">==</span> <span class="n">i</span>
+       <span class="o">?</span> <span class="n">it</span><span class="o">-&gt;</span><span class="n">second</span> <span class="o">:</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h2 id="note-2">Note</h2>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">L::const_iterator</code> è il tipo degli iteratori (costanti) di <code class="language-plaintext highlighter-rouge">L</code></li>
+  <li><code class="language-plaintext highlighter-rouge">data.cbegin()</code> crea un iteratore che indica il primo nodo in
+<code class="language-plaintext highlighter-rouge">data</code></li>
+  <li>Il ciclo <code class="language-plaintext highlighter-rouge">while</code> fa avanzare (con <code class="language-plaintext highlighter-rouge">++</code>) l’iteratore fintantoché
+    <ol>
+      <li><code class="language-plaintext highlighter-rouge">it != data.cend()</code>, cioè ci sono ancora nodi nella lista, e</li>
+      <li><code class="language-plaintext highlighter-rouge">it-&gt;first &lt; i</code>, ovvero c’è ancora speranza di trovare il nodo
+con indice $i$ (i nodi <a href="#scrittura">verranno memorizzati</a> con
+<em>indici crescenti</em>)</li>
+    </ol>
+  </li>
+  <li>Terminato il ciclo, il risultato è
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">it-&gt;second</code> se <code class="language-plaintext highlighter-rouge">it</code> è un iteratore che indica il nodo con
+indice $i$</li>
+      <li><code class="language-plaintext highlighter-rouge">0</code> se non è stato trovato un nodo con indice $i$ (il vettore è
+sparso)</li>
+    </ul>
+  </li>
+</ul>
+
+<h1 id="scrittura">Scrittura tramite iteratore (1/2)</h1>
+
+<h2 id="problema-e-strategia">Problema e strategia</h2>
+
+<ul>
+  <li>Impostare a $x ≠ 0$ il valore dell’elemento con indice $i$</li>
+  <li>Cercare una coppia la cui prima componente è $i$
+    <ul>
+      <li>se c’è, sovrascrivere la seconda componente con $x$</li>
+      <li>se non c’è, <strong>inserire</strong> la coppia $(i, x)$ nel <strong>punto giusto</strong>
+della lista</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="note-3">Note</h2>
+
+<ul>
+  <li>Vogliamo mantenere l’invariante che gli elementi nella lista
+abbiano <em>indici crescenti</em>.</li>
+  <li>Questo invariante rende leggermente più efficiente l’operazione di
+<a href="#lettura">lettura</a> perché possiamo terminare la ricerca
+dell’elemento con indice $i$ non appena troviamo una coppia con
+indice $j&gt;i$</li>
+  <li>Quale sia “punto giusto” in cui inserire $(i, x)$ dipende dalle circostanze:
+    <ul>
+      <li>subito prima della coppia $(j, y)$ per il più piccolo $j &gt; i$</li>
+      <li>in fondo alla lista se non c’è tale coppia</li>
+    </ul>
+  </li>
+</ul>
+
+<h1 id="scrittura-tramite-iteratore-22">Scrittura tramite iteratore (2/2)</h1>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="n">SparseVector</span><span class="o">::</span><span class="n">set</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="p">,</span> <span class="kt">int</span> <span class="n">x</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="o">||</span> <span class="n">i</span> <span class="o">&gt;=</span> <span class="n">_size</span><span class="p">)</span>
+    <span class="k">throw</span> <span class="n">std</span><span class="o">::</span><span class="n">domain_error</span><span class="p">(</span><span class="s">"invalid index"</span><span class="p">);</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">x</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span> <span class="c1">// non inseriamo mai valori nulli</span>
+  <span class="n">L</span><span class="o">::</span><span class="n">iterator</span> <span class="n">it</span> <span class="o">=</span> <span class="n">data</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span>
+  <span class="k">while</span> <span class="p">(</span><span class="n">it</span> <span class="o">!=</span> <span class="n">data</span><span class="p">.</span><span class="n">end</span><span class="p">()</span> <span class="o">&amp;&amp;</span> <span class="n">it</span><span class="o">-&gt;</span><span class="n">first</span> <span class="o">&lt;</span> <span class="n">i</span><span class="p">)</span> <span class="n">it</span><span class="o">++</span><span class="p">;</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">it</span> <span class="o">==</span> <span class="n">data</span><span class="p">.</span><span class="n">end</span><span class="p">()</span> <span class="o">||</span> <span class="n">it</span><span class="o">-&gt;</span><span class="n">first</span> <span class="o">&gt;</span> <span class="n">i</span><span class="p">)</span>
+    <span class="n">data</span><span class="p">.</span><span class="n">insert</span><span class="p">(</span><span class="n">it</span><span class="p">,</span> <span class="n">E</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">x</span><span class="p">));</span>
+  <span class="k">else</span> <span class="n">it</span><span class="o">-&gt;</span><span class="n">second</span> <span class="o">=</span> <span class="n">x</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h2 id="note-4">Note</h2>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">data.begin()</code> e <code class="language-plaintext highlighter-rouge">data.end()</code> creano <strong>iteratori non costanti</strong>
+che consentono di <em>modificare la lista</em> (se occorre)</li>
+  <li><code class="language-plaintext highlighter-rouge">data.insert(it, E(i, x))</code> inserisce la nuova coppia $(i, x)$
+<strong>subito prima</strong> del nodo indicato da <code class="language-plaintext highlighter-rouge">it</code> in <code class="language-plaintext highlighter-rouge">data</code></li>
+  <li>Se <code class="language-plaintext highlighter-rouge">it == data.end()</code>, la nuova coppia viene inserita <strong>in fondo
+alla lista</strong></li>
+</ul>
+
+<p>Il codice descritto in questo documento è <a href="assets/code/contenitori/nat.cc">incluso
+nell’archivio</a>.</p>
+
+<div class="footer">
+  <p><img class="license-icon" src="assets/images/by-nc-sa.svg" width="60px" />
+Tutto il materiale didattico incluso è distribuito con licenza <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.it">CC
+BY-NC-SA
+4.0</a>.
+Documento generato il 06/04/2022.  &lt;/div&gt;</p>
+
+</div>
+
+    </div>
+    <script type="text/javascript" src="../js/mathjax.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+  </body>
+</html>

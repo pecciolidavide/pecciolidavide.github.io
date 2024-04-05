@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Contenitori e oggetti composti</title>
+    <script>
+      (function() {
+	  if (window.location.search != "?handout") {
+	      document.write('<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/reveal.js@3.9.2/css/reveal.css">');
+	  }
+      })();
+    </script>
+    <link rel="stylesheet" type="text/css" href="../assets/css/vs.css">
+    <link rel="stylesheet" type="text/css" href="../assets/css/main.css">
+  </head>
+  <body>
+    <div class="reveal">
+      <div id="root" class="slides">
+	<h1 class="no_toc" id="programmazione-avanzata">PROGRAMMAZIONE AVANZATA</h1>
+
+<h2 class="sezione" id="4-contenitori-e-oggetti-composti">4 Contenitori e oggetti composti</h2>
+
+<ul class="smaller" id="markdown-toc">
+  <li><a href="#contenitori" id="markdown-toc-contenitori">Contenitori</a></li>
+  <li><a href="#vettori-e-stringhe" id="markdown-toc-vettori-e-stringhe">Vettori e stringhe</a></li>
+  <li><a href="#operazioni-su-vettori-e-stringhe" id="markdown-toc-operazioni-su-vettori-e-stringhe">Operazioni su vettori e stringhe</a></li>
+  <li><a href="#esempio-eliminazione-di-spazi" id="markdown-toc-esempio-eliminazione-di-spazi">Esempio: eliminazione di spazi</a></li>
+  <li><a href="#esempio-rimario" id="markdown-toc-esempio-rimario">Esempio: rimario</a></li>
+  <li><a href="#include-e-definizione-dei-tipi" id="markdown-toc-include-e-definizione-dei-tipi"><code class="language-plaintext highlighter-rouge">#include</code> e definizione dei tipi</a></li>
+  <li><a href="#lettura-del-vocabolario" id="markdown-toc-lettura-del-vocabolario">Lettura del vocabolario</a></li>
+  <li><a href="#ricerca-delle-rime" id="markdown-toc-ricerca-delle-rime">Ricerca delle rime</a></li>
+  <li><a href="#il-rimario-completo" id="markdown-toc-il-rimario-completo">Il rimario completo</a></li>
+  <li><a href="#esempio-vettori-in-spazi-vettoriali" id="markdown-toc-esempio-vettori-in-spazi-vettoriali">Esempio: vettori in spazi vettoriali</a></li>
+  <li><a href="#adattamento-di-oggetti" id="markdown-toc-adattamento-di-oggetti">Adattamento di oggetti</a></li>
+  <li><a href="#accesso" id="markdown-toc-accesso">Costruttore e metodi di accesso</a></li>
+  <li><a href="#prodotto-scalare-di-vettori" id="markdown-toc-prodotto-scalare-di-vettori">Prodotto scalare di vettori</a></li>
+  <li><a href="#esercizi" id="markdown-toc-esercizi">Esercizi</a></li>
+</ul>
+
+<div class="license">
+  <p><img class="license-icon" src="../assets/images/by-nc-sa.svg" width="80px" />
+Documento distribuito con licenza <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.it">CC BY-NC-SA 4.0</a>. Generato il 06/04/2022.</p>
+</div>
+
+<h1 id="contenitori">Contenitori</h1>
+
+<ul>
+  <li>La libreria standard del C++ definisce molte classi
+<strong>contenitore</strong></li>
+  <li>L’istanza di una classe contenitore serve per alloggiare
+<strong>collezioni di elementi</strong>, in particolare collezioni di <strong>oggetti</strong>.</li>
+</ul>
+
+<p>I <a href="https://en.cppreference.com/w/cpp/container">contenitori</a> si
+differenziano per:</p>
+
+<ul>
+  <li><strong>cosa</strong> possono contenere (elementi di tipo specifico o di qualunque
+tipo)</li>
+  <li><strong>come</strong> si accede agli elementi (per <strong>posizione</strong>, per
+<strong>chiave</strong>)</li>
+  <li>efficienza di alcune <strong>operazioni critiche</strong> (lettura, scrittura,
+inserimento, …)</li>
+</ul>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">Contenitore</th>
+      <th style="text-align: left">Contenuto</th>
+      <th style="text-align: left">Accesso</th>
+      <th style="text-align: left">Operazioni efficienti</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left"><a href="https://en.cppreference.com/w/cpp/string"><code class="language-plaintext highlighter-rouge">string</code></a></td>
+      <td style="text-align: left">caratteri</td>
+      <td style="text-align: left">posizione</td>
+      <td style="text-align: left">accesso + (inserim./canc. <em>alla fine</em>)</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><a href="https://en.cppreference.com/w/cpp/container/vector"><code class="language-plaintext highlighter-rouge">vector</code></a></td>
+      <td style="text-align: left">qualsiasi</td>
+      <td style="text-align: left">posizione</td>
+      <td style="text-align: left">accesso + (inserim./canc. <em>alla fine</em>)</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><a href="https://en.cppreference.com/w/cpp/container/list"><code class="language-plaintext highlighter-rouge">list</code></a></td>
+      <td style="text-align: left">qualsiasi</td>
+      <td style="text-align: left">posizione</td>
+      <td style="text-align: left">accesso/inserim./canc. a <em>inizio e fine</em></td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><a href="https://en.cppreference.com/w/cpp/container/map"><code class="language-plaintext highlighter-rouge">map</code></a></td>
+      <td style="text-align: left">tipo ordinato</td>
+      <td style="text-align: left">chiave</td>
+      <td style="text-align: left">inserimento/cancellazione/<em>ricerca</em></td>
+    </tr>
+  </tbody>
+</table>
+
+<h1 id="vettori-e-stringhe">Vettori e stringhe</h1>
+
+<h2 id="vettori">Vettori</h2>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">std::vector&lt;T&gt;</code> è il tipo dei <strong>vettori</strong> di elementi di tipo <code class="language-plaintext highlighter-rouge">T</code></li>
+  <li>la <strong>dimensione</strong> del vettore può variare nel tempo (oggetto
+<strong>mutabile</strong>)</li>
+  <li>accesso per <strong>posizione</strong> $i ∈ [0,n)$ dove $n$ è la dimensione del
+vettore</li>
+</ul>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">x</span><span class="p">;</span>   <span class="c1">// vettore di numeri interi</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span> <span class="n">y</span><span class="p">;</span> <span class="c1">// vettore di numeri con virgola</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">Jar</span><span class="o">&gt;</span> <span class="n">z</span><span class="p">;</span>   <span class="c1">// vettore di giare</span>
+</code></pre></div></div>
+
+<h2 id="stringhe">Stringhe</h2>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">std::string</code> è il tipo delle <strong>stringhe</strong> (= sequenze di caratteri)</li>
+  <li>simile a <code class="language-plaintext highlighter-rouge">std::vector&lt;char&gt;</code>, ma con operazioni specifiche</li>
+</ul>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">s</span> <span class="o">=</span> <span class="s">"Un saluto"</span><span class="p">;</span>
+</code></pre></div></div>
+
+<h1 id="operazioni-su-vettori-e-stringhe">Operazioni su vettori e stringhe</h1>
+
+<div class="skip" style="margin-top: 1em"></div>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">Operazione</th>
+      <th style="text-align: left">Descrizione</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">c.size()</code></td>
+      <td style="text-align: left">Restituisce il numero di elementi in <code class="language-plaintext highlighter-rouge">c</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">c.resize(n,x)</code></td>
+      <td style="text-align: left">Cambia la dimensione di <code class="language-plaintext highlighter-rouge">c</code> a <code class="language-plaintext highlighter-rouge">n</code>, usando <code class="language-plaintext highlighter-rouge">x</code> per gli eventuali elementi aggiunti</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">c.push_back(x)</code></td>
+      <td style="text-align: left">Aggiunge <code class="language-plaintext highlighter-rouge">x</code> a <code class="language-plaintext highlighter-rouge">c</code> dopo l’ultimo elemento</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">c.pop_back()</code></td>
+      <td style="text-align: left">Rimuove l’ultimo elemento di <code class="language-plaintext highlighter-rouge">c</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">s.erase(i,n)</code></td>
+      <td style="text-align: left">Rimuove <code class="language-plaintext highlighter-rouge">n</code> caratteri a partire dalla posizione <code class="language-plaintext highlighter-rouge">i</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">c[i]</code></td>
+      <td style="text-align: left">Riferimento all’<code class="language-plaintext highlighter-rouge">i</code>-esimo elemento di <code class="language-plaintext highlighter-rouge">c</code>, <em>senza controllo</em></td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">c.at(i)</code></td>
+      <td style="text-align: left">Riferimento all’<code class="language-plaintext highlighter-rouge">i</code>-esimo elemento di <code class="language-plaintext highlighter-rouge">c</code>, <em>con controllo</em></td>
+    </tr>
+  </tbody>
+</table>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">c</code> è un contenitore di tipo <code class="language-plaintext highlighter-rouge">std::string</code> o <code class="language-plaintext highlighter-rouge">std::vector&lt;T&gt;</code></li>
+  <li><code class="language-plaintext highlighter-rouge">s</code> è un contenitore di tipo <code class="language-plaintext highlighter-rouge">std::string</code></li>
+  <li><code class="language-plaintext highlighter-rouge">x</code> è un elemento di tipo <code class="language-plaintext highlighter-rouge">char</code> o <code class="language-plaintext highlighter-rouge">T</code>, a seconda del tipo di <code class="language-plaintext highlighter-rouge">c</code></li>
+  <li><code class="language-plaintext highlighter-rouge">i</code> ed <code class="language-plaintext highlighter-rouge">n</code> sono numeri interi</li>
+  <li>I riferimenti possono essere usati per <em>leggere</em> e <em>scrivere</em>
+elementi</li>
+</ul>
+
+<h1 id="esempio-eliminazione-di-spazi">Esempio: eliminazione di spazi</h1>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="nf">elimina_spazi_inefficiente</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&amp;</span> <span class="n">s</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="k">while</span> <span class="p">(</span><span class="n">i</span> <span class="o">&lt;</span> <span class="n">s</span><span class="p">.</span><span class="n">size</span><span class="p">())</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">isspace</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span> <span class="n">s</span><span class="p">.</span><span class="n">erase</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span> <span class="k">else</span> <span class="n">i</span><span class="o">++</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li><strong class="green">Vantaggio</strong> (trascurabile): non creo altre stringhe</li>
+  <li><strong class="red">Svantaggi</strong>: codice <em>inefficiente</em> e con <em>effetti globali</em></li>
+</ul>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="nf">elimina_spazi</span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&amp;</span> <span class="n">s</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">r</span><span class="p">;</span> <span class="c1">// inizialmente vuota</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">s</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">isspace</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span> <span class="n">r</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+  <span class="k">return</span> <span class="n">r</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li><strong class="green">Vantaggi</strong>: codice <em>efficiente</em> e con <em>effetti locali</em></li>
+  <li><strong class="red">Svantaggio</strong> (trascurabile): creo e restituisco una nuova stringa</li>
+</ul>
+
+<h1 id="esempio-rimario">Esempio: rimario</h1>
+
+<h2 id="problema">Problema</h2>
+
+<ul>
+  <li>Dato un <strong>vocabolario</strong> (elenco di parole), trovare tutte quelle
+che <strong>finiscono</strong> con un suffisso dato</li>
+</ul>
+
+<h2 id="rappresentazione-dei-dati">Rappresentazione dei dati</h2>
+
+<ul>
+  <li>Parole e suffissi sono rappresentati come <strong>stringhe</strong></li>
+  <li>Un vocabolario è rappresentato come un <strong>vettore di stringhe</strong></li>
+</ul>
+
+<h2 id="note">Note</h2>
+
+<ul>
+  <li>La rappresentazione scelta non è necessariamente la più efficiente
+per il problema in questione, ma ignoriamo questi aspetti a favore
+della semplicità del codice</li>
+</ul>
+
+<h1 id="include-e-definizione-dei-tipi"><code class="language-plaintext highlighter-rouge">#include</code> e definizione dei tipi</h1>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;fstream&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;string&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;vector&gt;</span><span class="cp">
+</span>
+<span class="k">typedef</span> <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">vocabolario</span><span class="p">;</span>
+</code></pre></div></div>
+
+<h2 id="note-1">Note</h2>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">fstream</code> definisce classi/metodi per leggere/scrivere file</li>
+  <li>Il tipo del vocabolario è <code class="language-plaintext highlighter-rouge">std::vector&lt;std::string&gt;</code></li>
+  <li>Con <code class="language-plaintext highlighter-rouge">typedef</code> definiamo un <strong>sinonimo</strong> per questo tipo, dandogli
+un nome <em>più breve</em> e <em>più significativo</em> (= migliore leggibilità
+del codice)</li>
+  <li><code class="language-plaintext highlighter-rouge">std::vector&lt;std::string&gt;</code> e <code class="language-plaintext highlighter-rouge">vocabolario</code> sono <strong>intercambiabili</strong></li>
+</ul>
+
+<h1 id="lettura-del-vocabolario">Lettura del vocabolario</h1>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">vocabolario</span> <span class="nf">leggi_vocabolario</span><span class="p">()</span> <span class="p">{</span>
+  <span class="n">vocabolario</span> <span class="n">d</span><span class="p">;</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">ifstream</span> <span class="n">f</span><span class="p">(</span><span class="s">"italiano.txt"</span><span class="p">);</span>
+  <span class="k">while</span> <span class="p">(</span><span class="n">f</span><span class="p">.</span><span class="n">good</span><span class="p">())</span> <span class="p">{</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">parola</span><span class="p">;</span>
+    <span class="n">f</span> <span class="o">&gt;&gt;</span> <span class="n">parola</span><span class="p">;</span>
+    <span class="n">d</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">parola</span><span class="p">);</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="n">d</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h2 id="note-2">Note</h2>
+
+<ul>
+  <li>Usiamo la classe <code class="language-plaintext highlighter-rouge">std::ifstream</code> per <strong>leggere</strong> un file</li>
+  <li>Il nome del file è un argomento del costruttore della classe</li>
+  <li>Il metodo <code class="language-plaintext highlighter-rouge">good</code> restituisce <code class="language-plaintext highlighter-rouge">true</code> se il file è stato aperto
+correttamente e ci sono ancora informazioni (= parole) da leggere</li>
+  <li><code class="language-plaintext highlighter-rouge">d.push_back</code> inserisce ogni parola letta dal file in fondo al
+vocabolario</li>
+  <li>Il file <a href="../assets/code/italiano.txt"><code class="language-plaintext highlighter-rouge">italiano.txt</code></a> è fornito
+nell’archivio insieme alle slide</li>
+</ul>
+
+<h1 id="ricerca-delle-rime">Ricerca delle rime</h1>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">bool</span> <span class="nf">termina_con</span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&amp;</span> <span class="n">p</span><span class="p">,</span>
+                 <span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&amp;</span> <span class="n">s</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kt">int</span> <span class="n">k</span> <span class="o">=</span> <span class="n">p</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="c1">// lunghezza della parola</span>
+  <span class="kt">int</span> <span class="n">l</span> <span class="o">=</span> <span class="n">s</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="c1">// lunghezza del suffisso</span>
+  <span class="k">return</span> <span class="n">k</span> <span class="o">&lt;</span> <span class="n">l</span> <span class="o">?</span> <span class="nb">false</span> <span class="o">:</span> <span class="n">p</span><span class="p">.</span><span class="n">substr</span><span class="p">(</span><span class="n">k</span> <span class="o">-</span> <span class="n">l</span><span class="p">)</span> <span class="o">==</span> <span class="n">s</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">cerca_rime</span><span class="p">(</span><span class="k">const</span> <span class="n">vocabolario</span><span class="o">&amp;</span> <span class="n">d</span><span class="p">,</span>
+                <span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&amp;</span> <span class="n">s</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">d</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">termina_con</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">s</span><span class="p">))</span>
+      <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"  "</span> <span class="o">&lt;&lt;</span> <span class="n">d</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h2 id="note-3">Note</h2>
+
+<ul>
+  <li><a href="https://en.cppreference.com/w/cpp/string/basic_string/substr"><code class="language-plaintext highlighter-rouge">s.substr(n)</code></a>
+restituisce il <strong>suffisso</strong> di <code class="language-plaintext highlighter-rouge">s</code> a partire dal carattere in
+posizione <code class="language-plaintext highlighter-rouge">n</code></li>
+  <li>Versioni recenti del C++ forniscono un metodo
+<a href="https://en.cppreference.com/w/cpp/string/basic_string/ends_with"><code class="language-plaintext highlighter-rouge">ends_with</code></a>
+il cui effetto è analogo a quello della funzione <code class="language-plaintext highlighter-rouge">termina_con</code></li>
+</ul>
+
+<h1 id="il-rimario-completo">Il rimario completo</h1>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+  <span class="n">vocabolario</span> <span class="n">d</span> <span class="o">=</span> <span class="n">leggi_vocabolario</span><span class="p">();</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"Ho "</span> <span class="o">&lt;&lt;</span> <span class="n">d</span><span class="p">.</span><span class="n">size</span><span class="p">()</span>
+            <span class="o">&lt;&lt;</span> <span class="s">" parole nel vocabolario "</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">suffisso</span><span class="p">;</span>
+  <span class="k">do</span> <span class="p">{</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"</span><span class="se">\n</span><span class="s">Fa rima con (^C o Q per uscire): "</span><span class="p">;</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">suffisso</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">suffisso</span> <span class="o">!=</span> <span class="s">"Q"</span><span class="p">)</span> <span class="n">cerca_rime</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">suffisso</span><span class="p">);</span>
+  <span class="p">}</span> <span class="k">while</span> <span class="p">(</span><span class="n">suffisso</span> <span class="o">!=</span> <span class="s">"Q"</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h2 id="nota">Nota</h2>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">!=</code> è l’operatore classico di <strong>disuguaglianza</strong> <code class="language-plaintext highlighter-rouge">!</code><code class="language-plaintext highlighter-rouge">=</code></li>
+</ul>
+
+<h1 id="esempio-vettori-in-spazi-vettoriali">Esempio: vettori in spazi vettoriali</h1>
+
+<h2 id="vettore-come-oggetto-di-tipo-stdvectort">Vettore come oggetto di tipo <code class="language-plaintext highlighter-rouge">std::vector&lt;T&gt;</code></h2>
+
+<ul>
+  <li>Ha una dimensione $n$ (<em>variabile</em>) ed $n$ elementi (di tipo <code class="language-plaintext highlighter-rouge">T</code>)</li>
+  <li>Posso leggere/scrivere i singoli elementi</li>
+  <li>Posso <strong>inserire</strong>/<strong>rimuovere</strong> elementi</li>
+</ul>
+
+<h2 id="vettore-come-elemento-di-uno-spazio-vettoriale">Vettore come elemento di uno spazio vettoriale</h2>
+
+<ul>
+  <li>Ha una dimensione $n$ (<em>costante</em>) ed $n$ elementi</li>
+  <li>Posso leggere (ma <em>non scrivere</em>) i singoli elementi</li>
+  <li>Posso <strong>sommare</strong> vettori e calcolare il <strong>prodotto scalare</strong> di vettori</li>
+</ul>
+
+<h2 id="in-sintesi">In sintesi</h2>
+
+<ul>
+  <li>Ci sono analogie tra vettori (C++) e vettori (di uno spazio vettoriale)…</li>
+  <li>…ma le due entità supportano operazioni differenti</li>
+  <li>Possiamo <strong>adattare</strong> i vettori C++ per modellare vettori di uno spazio</li>
+</ul>
+
+<h1 id="adattamento-di-oggetti">Adattamento di oggetti</h1>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Vector</span> <span class="p">{</span> <span class="c1">// vettore in uno spazio vettoriale</span>
+<span class="nl">private:</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">data</span><span class="p">;</span> <span class="c1">// contenitore degli elementi</span>
+<span class="nl">public:</span>
+  <span class="n">Vector</span><span class="p">(</span><span class="kt">int</span><span class="p">);</span>
+  <span class="kt">int</span> <span class="n">size</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+  <span class="kt">int</span> <span class="k">operator</span><span class="p">[](</span><span class="kt">int</span><span class="p">)</span> <span class="k">const</span><span class="p">;</span>
+  <span class="kt">int</span><span class="o">&amp;</span> <span class="k">operator</span><span class="p">[](</span><span class="kt">int</span><span class="p">);</span> <span class="c1">// serve per l'inizializzazione</span>
+  <span class="kt">int</span> <span class="n">mul</span><span class="p">(</span><span class="k">const</span> <span class="n">Vector</span><span class="o">&amp;</span><span class="p">)</span> <span class="k">const</span><span class="p">;</span>
+<span class="p">};</span>
+</code></pre></div></div>
+<ul>
+  <li>Usiamo <code class="language-plaintext highlighter-rouge">std::vector&lt;int&gt;</code> come <strong>contenitore</strong> di elementi di un vettore</li>
+  <li>Forniamo le <strong>operazioni tipiche</strong> di un vettore di uno spazio vettoriale</li>
+</ul>
+
+<h2 id="nota-1">Nota</h2>
+
+<p>Definiamo come membri gli operatori <code class="language-plaintext highlighter-rouge">[]</code> per leggere/scrivere
+elementi di un vettore. La possibilità di <em>scrivere</em> elementi è una
+<strong>deroga necessaria</strong> per poter inizializzare vettori. Versioni
+recenti del C++ hanno un <em>meccanismo conveniente</em> per inizializzare
+contenitori (vedi <a href="https://en.cppreference.com/w/cpp/utility/initializer_list">initializer
+list</a>).</p>
+
+<h1 id="accesso">Costruttore e metodi di accesso</h1>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Vector</span><span class="o">::</span><span class="n">Vector</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="k">throw</span> <span class="n">std</span><span class="o">::</span><span class="n">domain_error</span><span class="p">(</span><span class="s">"invalid size"</span><span class="p">);</span>
+  <span class="n">data</span><span class="p">.</span><span class="n">resize</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="n">Vector</span><span class="o">::</span><span class="n">size</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="n">data</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="n">Vector</span><span class="o">::</span><span class="k">operator</span><span class="p">[](</span><span class="kt">int</span> <span class="n">i</span><span class="p">)</span> <span class="k">const</span> <span class="p">{</span> <span class="c1">// per leggere</span>
+  <span class="k">return</span> <span class="n">data</span><span class="p">.</span><span class="n">at</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">int</span><span class="o">&amp;</span> <span class="n">Vector</span><span class="o">::</span><span class="k">operator</span><span class="p">[](</span><span class="kt">int</span> <span class="n">i</span><span class="p">)</span> <span class="p">{</span>      <span class="c1">// per scrivere</span>
+  <span class="k">return</span> <span class="n">data</span><span class="p">.</span><span class="n">at</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>Il controllo della validità di <code class="language-plaintext highlighter-rouge">i</code> in <code class="language-plaintext highlighter-rouge">get</code> e <code class="language-plaintext highlighter-rouge">set</code> è <strong>delegato</strong> a
+<code class="language-plaintext highlighter-rouge">at</code></li>
+  <li>Notare l’uso di <code class="language-plaintext highlighter-rouge">&amp;</code> nel tipo di ritorno e l’assenza di <code class="language-plaintext highlighter-rouge">const</code> nel
+secondo metodo <code class="language-plaintext highlighter-rouge">[]</code> per permettere la modifica degli elementi del
+vettore</li>
+</ul>
+
+<h1 id="prodotto-scalare-di-vettori">Prodotto scalare di vettori</h1>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="n">Vector</span><span class="o">::</span><span class="n">mul</span><span class="p">(</span><span class="k">const</span> <span class="n">Vector</span><span class="o">&amp;</span> <span class="n">v</span><span class="p">)</span> <span class="k">const</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">size</span><span class="p">()</span> <span class="o">!=</span> <span class="n">v</span><span class="p">.</span><span class="n">size</span><span class="p">())</span>
+    <span class="k">throw</span> <span class="n">std</span><span class="o">::</span><span class="n">domain_error</span><span class="p">(</span><span class="s">"invalid size"</span><span class="p">);</span>
+  <span class="kt">int</span> <span class="n">res</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">size</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+    <span class="n">res</span> <span class="o">+=</span> <span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">v</span><span class="p">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+  <span class="k">return</span> <span class="n">res</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h2 id="esempio-calcolo-del-modulo-di-un-vettore">Esempio: calcolo del modulo di un vettore</h2>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="n">Vector</span> <span class="nf">v</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
+  <span class="n">v</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+  <span class="n">v</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+  <span class="kt">double</span> <span class="n">m</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">sqrt</span><span class="p">(</span><span class="n">v</span><span class="p">.</span><span class="n">mul</span><span class="p">(</span><span class="n">v</span><span class="p">));</span> <span class="c1">// m = ||v||</span>
+</code></pre></div></div>
+
+<h1 id="esercizi">Esercizi</h1>
+
+<ol>
+  <li>Scrivere una funzione <code class="language-plaintext highlighter-rouge">inserisci_spazi(s)</code> che inserisca in <code class="language-plaintext highlighter-rouge">s</code>
+uno spazio dopo ogni virgola che non è già seguita da uno
+spazio. Fornire due versioni della funzione, una che modifica <code class="language-plaintext highlighter-rouge">s</code>
+(analoga a <code class="language-plaintext highlighter-rouge">elimina_spazi_inefficiente</code>) e l’altra che
+restituisce una nuova stringa con il risultato (analoga a
+<code class="language-plaintext highlighter-rouge">elimina_spazi</code>).</li>
+  <li>Aggiungere alla classe <code class="language-plaintext highlighter-rouge">Vector</code> metodi corrispondenti alle
+seguenti operazioni: moltiplicazione di un vettore per uno
+scalare, somma e sottrazione di vettori.</li>
+  <li>Realizzare una classe <code class="language-plaintext highlighter-rouge">Matrix</code> per rappresentare una matrice di
+numeri interi. Dotare la classe di metodi corrispondenti alle
+seguenti operazioni: lettura del numero di righe/colonne; lettura
+di una riga; lettura di una colonna; lettura/scrittura di un
+elemento della matrice; trasposta; moltiplicazione per scalare;
+somma/sottrazione; moltiplicazione matriciale;
+potenza. <strong>Suggerimento</strong>: Usare un campo con tipo
+<code class="language-plaintext highlighter-rouge">std::vector&lt;Vector&gt;</code> per memorizzare il contenuto della matrice
+<em>per righe</em>. Per agevolare la realizzazione dei metodi può essere
+opportuno dotare la classe di altri campi.  <strong>Nota</strong>: Questo
+esercizio è importante ma non banale. La soluzione è fornita, ma
+verrà comunque ripresa e discussa in seguito.</li>
+</ol>
+
+      </div>
+    </div>
+    <script type="text/javascript" src="../js/slider.js"></script>
+    <script>
+      (function() {
+	  if (window.location.search != "?handout") {
+	      document.write('<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/reveal.js@3.9.2/js/reveal.min.js"><\/script>');
+	  }
+      })();
+    </script>
+    <script>
+      initialize_slider();
+      if (window.location.search != "?handout") {
+	  // Setup Reveal
+	  Reveal.initialize({
+	      controls:    false,  // No control arrows
+	      slideNumber: 'c/t',  // Print slide number
+	      center:      false,  // Do not align slide vertically
+	      progress:    false,  // Do not display progress bar
+	      hash:        true,   // Store slide number in URL
+	      transition:  'none', // Transition mode
+	      transitionSpeed: 'fast',
+	      width:       848,
+	      height:      600,
+	      margin:      0,
+	      pdfSeparateFragments: false,
+	  });
+      }
+    </script>
+    <script type="text/javascript" src="../js/mathjax.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+  </body>
+</html>

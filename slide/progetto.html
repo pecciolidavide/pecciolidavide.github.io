@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Specifiche del progetto d'esame</title>
+    <script>
+      (function() {
+	  if (window.location.search != "?handout") {
+	      document.write('<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/reveal.js@3.9.2/css/reveal.css">');
+	  }
+      })();
+    </script>
+    <link rel="stylesheet" type="text/css" href="../assets/css/vs.css">
+    <link rel="stylesheet" type="text/css" href="../assets/css/main.css">
+  </head>
+  <body>
+    <div class="reveal">
+      <div id="root" class="slides">
+	<h1 class="no_toc" id="programmazione-avanzata">PROGRAMMAZIONE AVANZATA</h1>
+
+<h2 class="sezione" id="specifiche-del-progetto-desame">Specifiche del progetto d’esame</h2>
+
+<ul class="smaller" id="markdown-toc">
+  <li><a href="#progetto-desame" id="markdown-toc-progetto-desame">Progetto d’esame</a></li>
+  <li><a href="#codice" id="markdown-toc-codice">Codice</a></li>
+  <li><a href="#documentazione" id="markdown-toc-documentazione">Commenti e documentazione</a></li>
+  <li><a href="#consegna" id="markdown-toc-consegna">Consegna</a></li>
+  <li><a href="#valutazione-del-progetto" id="markdown-toc-valutazione-del-progetto">Valutazione del progetto</a></li>
+  <li><a href="#punteggio-base-discussione-e-voto" id="markdown-toc-punteggio-base-discussione-e-voto">Punteggio base, discussione e voto</a></li>
+  <li><a href="#idee" id="markdown-toc-idee">Proposte di progetti d’esame</a></li>
+  <li><a href="#suggerimenti-conclusivi" id="markdown-toc-suggerimenti-conclusivi">Suggerimenti conclusivi</a></li>
+</ul>
+
+<div class="license">
+  <p><img class="license-icon" src="../assets/images/by-nc-sa.svg" width="80px" />
+Documento distribuito con licenza <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.it">CC BY-NC-SA 4.0</a>. Generato il 06/04/2022.</p>
+</div>
+
+<h1 id="progetto-desame">Progetto d’esame</h1>
+
+<h2 id="in-cosa-consiste">In cosa consiste</h2>
+
+<ul>
+  <li>Programma che risolve di un semplice problema (gioco, quiz,
+problema matematico, ecc.).</li>
+  <li>Il problema è a scelta</li>
+  <li>Ci sono dei <strong>vincoli</strong> da rispettare su <a href="#codice">codice</a>,
+<a href="#documentazione">documentazione</a>, <a href="#consegna">consegna</a>,
+descritti nelle prossime slide.</li>
+</ul>
+
+<h2 id="come-si-svolge">Come si svolge</h2>
+
+<ul>
+  <li>Individualmente o in gruppo (max 2 persone).</li>
+  <li>Se fatto in gruppo, i contributi dei singoli devono essere
+<strong>equi</strong> e <strong>facilmente individuabili</strong></li>
+</ul>
+
+<h1 id="codice">Codice</h1>
+
+<ol>
+  <li>È <strong>obbligatorio</strong> usare almeno un <strong>contenitore</strong> in modo <strong>non
+banale</strong> (es. un contenitore la cui dimensione dipende dall’input
+del programma). La classe <code class="language-plaintext highlighter-rouge">std::string</code> <strong>non conta</strong> come
+contenitore.</li>
+  <li>È <strong>obbligatorio</strong> definire almeno una <strong>classe non banale</strong>
+diversa da quelle viste durante il corso. La classe deve essere
+dotata di stato (mutabile o no) e fornire metodi corrispondenti a
+“operazioni sensate” su oggetti di quella classe.</li>
+  <li>È <strong>obbligatorio</strong> usare <strong>nomi rappresentativi in italiano senza
+abbreviazioni</strong> per tutte le classi e i metodi definiti,
+eventualmente usando il carattere di sottolineatura per separare
+le parole. <strong class="green">SÌ</strong> <code class="language-plaintext highlighter-rouge">calcola_trasposta</code>, <strong class="green">SÌ</strong>
+<code class="language-plaintext highlighter-rouge">stampa_soluzione</code>, <strong class="red">NO</strong> <code class="language-plaintext highlighter-rouge">calc_trasp</code>, <strong class="red">NO</strong>
+<code class="language-plaintext highlighter-rouge">printsol</code>, <strong class="red">NO</strong> <code class="language-plaintext highlighter-rouge">Gatto</code> o <code class="language-plaintext highlighter-rouge">Animale</code> se la classe modella
+un pesce</li>
+  <li>Sono <strong>consentiti</strong> l’uso e la modifica delle classi fornite dal
+docente durante il corso, incluse le soluzioni degli
+esercizi. Queste classi non contribuiscono ad assolvere agli
+obblighi di cui ai punti 1 e 2 anche se modificate e sono
+esentate dagli obblighi di cui al punto 3.</li>
+  <li>È <strong>vietata</strong> l’inclusione di <em>qualsiasi codice non prodotto
+dagli autori del progetto o dal docente</em>.</li>
+</ol>
+
+<h1 id="documentazione">Commenti e documentazione</h1>
+
+<ul>
+  <li>È <strong>obbligatorio</strong> includere un file <code class="language-plaintext highlighter-rouge">LEGGIMI.txt</code> in formato
+testuale (<code class="language-plaintext highlighter-rouge">.txt</code>) o PDF (<code class="language-plaintext highlighter-rouge">.pdf</code>) o Markdown (<code class="language-plaintext highlighter-rouge">.md</code>) con le
+seguenti informazioni:
+    <ol>
+      <li><strong>Descrizione del problema</strong> risolto dal programma (1 paragrafo)</li>
+      <li><strong>Descrizione sommaria</strong> delle classi (1 frase per classe)</li>
+      <li><strong>Indicazioni sull’uso del programma</strong>, es. argomenti da
+  passare dalla riga di comando, formato di file di input, ecc.</li>
+      <li>Un <strong>esempio d’uso</strong> del programma con input fornito e output
+  ottenuto</li>
+      <li>Eventuali <strong>riferimenti</strong> a siti (es. Wikipedia) che descrivono
+  sommariamente il problema, l’algoritmo, la tecnica utilizzata,
+  ecc.</li>
+    </ol>
+  </li>
+  <li>È <strong>vietato</strong> l’uso di altri formati (es. <code class="language-plaintext highlighter-rouge">RTF</code>, <code class="language-plaintext highlighter-rouge">DOC</code>) per il
+file <code class="language-plaintext highlighter-rouge">LEGGIMI</code></li>
+  <li>È <strong>obbligatorio</strong> iniziare ogni file <code class="language-plaintext highlighter-rouge">.cc</code> con un commento che
+elenca tutti gli <strong>autori</strong> del progetto (nome, cognome, email,
+numero di matricola).</li>
+  <li>È <strong>obbligatorio</strong> commentare ogni <strong>classe</strong> descrivendone
+brevemente lo scopo (= cosa rappresenta) e i campi (= come la
+rappresenta).</li>
+  <li>Se presenti, gli <strong>invarianti di classe</strong> vanno indicati in
+commenti nei pressi dei campi della classe.</li>
+  <li>È <strong>obbligatorio</strong> commentare ogni <strong>metodo</strong> descrivendone
+brevemente la funzione, gli argomenti ed il valore restituito,
+laddove presenti.</li>
+</ul>
+
+<h1 id="consegna">Consegna</h1>
+
+<ul>
+  <li>Il codice sorgente del progetto deve essere consegnato <strong>una
+settimana prima</strong> dell’appello d’esame. Il docente predisporrà
+un’apposita attività per la consegna nella pagina Moodle del
+corso.</li>
+  <li>Il codice sorgente deve essere consegnato in un archivio dal nome
+<code class="language-plaintext highlighter-rouge">COGNOME_MATRICOLA.zip</code>. Il nome dell’archivio deve essere formato
+dal proprio <strong>cognome</strong> (privato di spazi ed eventuali apostrofi)
+seguito dal carattere <code class="language-plaintext highlighter-rouge">_</code> e infine dal proprio <strong>numero di
+matricola</strong>.</li>
+  <li>Nel caso di progetto svolto in gruppo (max 2 persone), il
+caricamento deve essere effettuato da <strong>un solo membro</strong> eletto a
+rappresentante del gruppo seguendo le indicazioni del punto
+precedente per quanto riguarda il nome dell’archivio.</li>
+  <li>L’archivio consegnato <strong>deve contenere</strong> tutti i file necessari
+per la compilazione e l’esecuzione del programma anche “offline”
+(senza una connessione Internet).</li>
+  <li>L’archivio consegnato <strong>non deve contenere</strong> file generati dal
+proprio compilatore (<code class="language-plaintext highlighter-rouge">.exe</code>, <code class="language-plaintext highlighter-rouge">.obj</code>, <code class="language-plaintext highlighter-rouge">.o</code>, <code class="language-plaintext highlighter-rouge">.out</code>, ecc.).</li>
+  <li>Se il programma necessita di accorgimenti particolari per la
+compilazione, indicarli in una nota nel file <code class="language-plaintext highlighter-rouge">LEGGIMI</code>. Il docente
+contatterà gli autori del progetto nel caso in cui riscontrasse
+difficoltà nella compilazione.</li>
+</ul>
+
+<h1 id="valutazione-del-progetto">Valutazione del progetto</h1>
+
+<p>Il progetto viene valutato tenendo conto dei seguenti criteri,
+indicativamente elencati in <em>ordine descrescente di importanza</em>:</p>
+
+<ol>
+  <li>Uso appropriato delle <strong>strutture dati</strong> (classi, contenitori) e
+dei <strong>comandi di controllo</strong> (cicli, <code class="language-plaintext highlighter-rouge">if</code>, <code class="language-plaintext highlighter-rouge">return</code>, <code class="language-plaintext highlighter-rouge">throw</code>)</li>
+  <li><strong>Ordine</strong> e <strong>indentazione</strong> del codice</li>
+  <li>Rispetto dei <strong>vincoli</strong> indicati in queste slide</li>
+  <li><strong>Correttezza</strong>: il programma risolve correttamente il problema
+per tutti gli input validi (cf. punti 1 e 4 del file <code class="language-plaintext highlighter-rouge">LEGGIMI</code>)</li>
+  <li>Originalità e difficoltà del problema</li>
+</ol>
+
+<h2 id="morali">Morali</h2>
+
+<ul>
+  <li>Meglio risolvere bene un problema semplice piuttosto che risolvere
+male un problema difficile.</li>
+  <li>Un progetto ben fatto internamente con qualche difetto di
+esecuzione vale più di uno che funziona perfettamente ma è
+strutturato male</li>
+</ul>
+
+<h1 id="punteggio-base-discussione-e-voto">Punteggio base, discussione e voto</h1>
+
+<ul>
+  <li>Il docente assegna un <strong>punteggio base</strong> espresso in trentesimi a
+ogni progetto consegnato e ne riassume la valutazione in un
+<strong>giudizio</strong>.</li>
+  <li>La <strong>discussione</strong> avviene:
+    <ul>
+      <li>se il docente lo ritiene necessario, oppure</li>
+      <li>su richiesta di chi desidera migliorare il punteggio base</li>
+    </ul>
+  </li>
+  <li>La discussione è sempre <strong>individuale</strong> anche se il progetto è
+fatto in gruppo. La discussione mira a verificare:
+    <ul>
+      <li>una <em>buona padronanza</em> di tutti i <strong>concetti</strong> e <strong>strumenti di
+programmazione</strong> presentati durante il corso</li>
+      <li>la <em>perfetta conoscenza</em> di <strong>tutto</strong> il codice del progetto
+(non solo della propria parte)</li>
+      <li>una <em>buona capacità</em> di apportare al volo semplici <strong>modifiche</strong>
+al codice del progetto (non solo sulla propria parte)</li>
+    </ul>
+  </li>
+  <li>La discussione può avere <strong>qualsiasi esito</strong>:
+    <ul>
+      <li>mancato superamento dell’esame (la discussione va ripetuta)</li>
+      <li>superamento dell’esame con <strong>voto</strong> pari, superiore o inferiore al
+punteggio base</li>
+    </ul>
+  </li>
+  <li>Se la discussione non avviene, il punteggio base diventa il voto
+finale.</li>
+</ul>
+
+<h1 id="idee">Proposte di progetti d’esame</h1>
+
+<ul>
+  <li><a href="https://it.wikipedia.org/wiki/Mastermind">Mastermind</a>, <a href="https://it.wikipedia.org/wiki/Battaglia_navale_(gioco)">Battaglia
+navale</a>,
+<a href="https://it.wikipedia.org/wiki/L%27impiccato">Impiccato</a>, <a href="https://it.wikipedia.org/wiki/Forza_quattro">Forza
+4</a>,
+<a href="https://it.wikipedia.org/wiki/Nim">Nim</a>, <a href="https://it.wikipedia.org/wiki/Campo_minato_(videogioco)">Campo
+minato</a></li>
+  <li>Inversione di una matrice</li>
+  <li>Risoluzione di un sistema di equazioni lineari</li>
+  <li>Analisi numerica (es. integrazione con metodo dei trapezi)</li>
+  <li>Ricerca degli anagrammi di una parola usando il dizionario di
+italiano</li>
+  <li>Ricerca di parole “vicine” a una parola data usando la <a href="https://it.wikipedia.org/wiki/Distanza_di_Levenshtein">distanza
+di
+Levenshtein</a></li>
+  <li>Generazione automatica di cruciverba</li>
+</ul>
+
+<h2 id="note">Note</h2>
+
+<ul>
+  <li>Nel caso di giochi, non è necessario che il programma “sappia
+giocare”. È sufficiente che il programma fornisca gli elementi
+essenziali del gioco o sappia controllare chi ha vinto, lasciando
+all’utilizzatore il controllo sulla strategia di gioco.</li>
+  <li>Queste sono proposte di progetti <strong>individuali</strong>. In un gruppo di
+$n$ persone, mi aspetto un progetto indicativamente $n$ volte più
+corposo/complesso</li>
+</ul>
+
+<h1 id="suggerimenti-conclusivi">Suggerimenti conclusivi</h1>
+
+<ul>
+  <li>
+    <p>Scegliete un <strong>progetto che vi diverte/interessa</strong> (più di altri)
+e magari che riguarda un problema con cui avete già
+familiarità. In questo modo potrete farvi subito un’idea
+abbastanza precisa di quanto possa essere facile/difficile
+affrontarlo tenendo conto dei vincoli descritti in precedenza.</p>
+  </li>
+  <li>
+    <p>Non ha senso studiare a priori tutta la <a href="https://en.cppreference.com/w/">libreria standard del
+C++</a>, che è vastissima. Se avete
+necessità di un’operazione (su stringhe, su contenitori, per fare
+input/output, …) che non è troppo specifica del vostro
+programma, è probabile che questa operazione sia già disponibile
+sotto forma di metodo o algoritmo nella libreria
+standard. <strong>Consultate la libreria all’occorrenza</strong>, è questo il
+modo normale di utilizzarla.</p>
+  </li>
+  <li>
+    <p>Esclusi i tre giorni precedenti ogni appello d’esame, sono
+disponibile per fare <strong>ricevimento online</strong> non solo per dubbi sui
+contenuti del corso, ma anche per discutere del progetto e
+consigliarvi se rimanete bloccati su qualche problema.</p>
+  </li>
+</ul>
+
+<h2 class="centered" id="buon-lavoro"><strong>BUON LAVORO!</strong></h2>
+
+      </div>
+    </div>
+    <script type="text/javascript" src="../js/slider.js"></script>
+    <script>
+      (function() {
+	  if (window.location.search != "?handout") {
+	      document.write('<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/reveal.js@3.9.2/js/reveal.min.js"><\/script>');
+	  }
+      })();
+    </script>
+    <script>
+      initialize_slider();
+      if (window.location.search != "?handout") {
+	  // Setup Reveal
+	  Reveal.initialize({
+	      controls:    false,  // No control arrows
+	      slideNumber: 'c/t',  // Print slide number
+	      center:      false,  // Do not align slide vertically
+	      progress:    false,  // Do not display progress bar
+	      hash:        true,   // Store slide number in URL
+	      transition:  'none', // Transition mode
+	      transitionSpeed: 'fast',
+	      width:       848,
+	      height:      600,
+	      margin:      0,
+	      pdfSeparateFragments: false,
+	  });
+      }
+    </script>
+    <script type="text/javascript" src="../js/mathjax.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+  </body>
+</html>

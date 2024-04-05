@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Il gioco delle torri di Hanoi</title>
+    <link href="https://fonts.googleapis.com/css?family=Fira+Code:300,600|Fira+Sans:300,600&display=swap&subset=latin-ext" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css" href="https://use.fontawesome.com/releases/v5.10.1/css/all.css"/>
+    <link rel="stylesheet" type="text/css" href="assets/css/vs.css"/>
+    <style>
+      html {
+	  font-family: "Fira Sans", sans-serif;
+	  font-size: 16pt;
+	  background-image: url('assets/images/background.png');
+	  background-attachment: fixed;
+	  margin: 0;
+	  padding: 0;
+      }
+
+      pre, code {
+	  font-family: "Fira Code", monospace;
+      }
+
+      body {
+	  max-width: 900px;
+	  margin: 1ex auto;
+	  counter-reset: chapter;
+	  background-color: white;
+	  padding: 16px 32px;
+	  box-shadow: 0 0 4px 4px #A0A0A0;
+	  border-radius: 8px;
+      }
+
+      h1 {
+	  font-weight: 300;
+	  color: white;
+	  background: #004080;
+	  text-align: center;
+	  margin: -16px -32px 16px -32px;
+	  padding: 16px 32px;
+	  border-radius: 8px 8px 0 0;
+      }
+
+      h2 {
+	  /* margin: 0 -32px; */
+	  padding: 4px 0 0 0;
+      }
+
+      i.fas, i.far {
+	  font-size: smaller;
+	  margin: 0 0.25ex;
+      }
+
+      a, a:visited {
+	  color: teal;
+	  text-decoration: none;
+      }
+
+      a:hover {
+	  color: white;
+	  background-color: teal;
+	  border-radius: 0.5ex;
+	  margin: 0.1ex -0.25ex;
+	  padding: 0.1ex 0.25ex;
+	  text-decoration: none;
+      }
+
+      .legend {
+	  display: inline-block;
+	  width: 300px;
+	  padding: 0 8px 0 0;
+	  float: right;
+	  font-size: small;
+	  background: orange;
+	  border-radius: 3px;
+      }
+
+      .footer {
+	  display: inline-block;
+	  font-size: small;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root" class="index">
+      <h1 id="il-gioco-delle-torri-di-hanoi">Il gioco delle torri di Hanoi</h1>
+
+<p><img width="100%" src="https://upload.wikimedia.org/wikipedia/commons/0/07/Tower_of_Hanoi.jpeg" /></p>
+
+<h2 id="introduzione">Introduzione</h2>
+
+<p>In questo caso di studio scriviamo un programma C++ per risolvere il
+<a href="https://it.wikipedia.org/wiki/Torre_di_Hanoi">gioco delle torri di
+Hanoi</a>.  Nel gioco le
+torri consistono in <strong>pile di dischi</strong> inseriti in <strong>tre
+paletti</strong>. In tutto ci sono $N$ dischi di diametro differente, dove
+$N$ varia solitamente tra $7$ e $9$ (come vedremo, il valore di $N$
+non modifica la complessità del gioco ma solo la sua durata).
+All’inizio del gioco c’è un’unica torre formata da tutti gli $N$
+dischi impilati nel primo dei tre paletti, in ordine crescente di
+diametro, come in figura. L’obiettivo del gioco è spostare la torre
+dal primo al terzo paletto con una serie di <strong>mosse</strong> che devono
+rispettare due semplici regole:</p>
+
+<ol>
+  <li>è consentito spostare un solo disco a ogni mossa;</li>
+  <li>non è consentito collocare un disco sopra un altro di diametro
+inferiore.</li>
+</ol>
+
+<p>Il gioco può essere risolto usando un <strong>algoritmo ricorsivo</strong> che si
+basa sulle seguenti osservazioni. Innanzi tutto, il gioco ammette
+una soluzione banale quando $N = 0$, in quanto non ci sono dischi da
+spostare. Se invece $N &gt; 0$, allora assumendo che il gioco con gli
+$N - 1$ dischi più piccoli sia risolvibile, allora lo è anche quello
+con tutti gli $N$ dischi. Infatti, supponendo di partire dallo stato
+iniziale in cui gli $N$ dischi formano un’unica torre nel primo
+paletto, è possibile “ignorare” il disco di diametro più grande
+(quello alla base della torre) e risolvere una diversa istanza del
+gioco spostando gli $N - 1$ dischi rimanenti <em>dal primo al secondo</em>
+paletto. In questa fase, il disco più grande può essere di fatto
+“ignorato” proprio perché tutti gli altri hanno un diametro
+inferiore e dunque non sono possibili mosse illegali (ciascuno degli
+$N - 1$ dischi più piccoli può essere collocato sopra il disco più
+grande senza violare la regola 2). Terminata questa fase il disco
+più grande sarà l’unico rimasto nel primo paletto e potrà essere
+spostato al terzo paletto. A questo punto, ignorando di nuovo
+l’esistenza del disco più grande, si risolve una nuova istanza del
+gioco spostando gli $N - 1$ dischi <em>dal secondo al terzo</em>
+paletto.</p>
+
+<p>Avendo individuato un caso base ($N = 0$) e avendo mostrato come
+risolvere il gioco nel caso $N &gt; 0$ ipotizzando di riuscire a
+risolvere ogni istanza del gioco con $N - 1$ paletti, un semplice
+ragionamento induttivo ci consente di concludere che questa
+strategia porta sempre alla soluzione del gioco. È anche possibile
+dimostrare che questa strategia è <em>ottimale</em>, nel senso che è quella
+che risolve il gioco con il minor numero possibile di mosse, e che
+tale numero è pari a $2^N - 1$.</p>
+
+<h2 id="domande">Domande</h2>
+
+<p>Prima di iniziare a scrivere il programma C++ che risolve il gioco è
+importante fare un’<strong>analisi del problema</strong>, cercando di individuare
+le <strong>entità</strong> che devono essere modellate nel programma e quali sono
+le loro <strong>caratteristiche fondamentali</strong> ai fini della simulazione.</p>
+
+<ol>
+  <li>Guardando la figura in alto, quali sono gli <strong>oggetti</strong> che
+compongono il gioco?</li>
+  <li>È possibile raggruppare questi oggetti in <strong>classi</strong> tali che gli
+oggetti della stessa classe sono <em>simili tra loro</em> per
+caratteristiche e/o comportamento?</li>
+  <li>Quali di questi oggetti sono <strong>mutabili</strong>, ovvero hanno uno stato
+che può variare nel tempo, e quali invece sono <strong>immutabili</strong>?</li>
+  <li>Ci sono caratteristiche degli oggetti del gioco che sono
+<strong>ininfluenti</strong> ai fini della simulazione e dunque possono essere
+trascurate nel programma?</li>
+</ol>
+
+<h2 id="risposte">Risposte</h2>
+
+<ol>
+  <li>Osserviamo che il gioco è composto da tre tipi di oggetti: i
+<strong>dischi</strong>, le <strong>torri</strong> e la <strong>base di gioco</strong> su cui poggiano
+le torri, che possiamo considerare come il gioco nella sua
+interezza.</li>
+  <li>I dischi sono caratterizzati da una <strong>dimensione</strong> (per esempio,
+il loro diametro) che non varia nel tempo. Ciascuna torre può
+<strong>contenere</strong> da $0$ a $N$ dischi, e tale numero è variabile nel
+tempo. L’intero gioco consiste in tre torri. Abbiamo dunque
+individuato le classi fondamentali (dischi, torri, gioco) ed il
+ruolo delle loro istanze.</li>
+  <li>Possiamo considerare i dischi come oggetti immutabili, mentre le
+torri sono ovviamente oggetti mutabili in quanto i dischi
+impilati attorno a un paletto possono variare nel tempo. Il gioco
+complessivo è indirettamente un oggetto mutabile a sua volta:
+anche se il numero di torri non varia nel tempo, il loro
+contenuto sì.</li>
+  <li>Abbiamo deciso di ignorare alcune caratteristiche del gioco che
+non sono determinanti ai fini della sua risoluzione. Ad esempio,
+il materiale ed il colore dei dischi, la disposizione delle torri
+(che non necessariamente è lineare come in figura), ecc.</li>
+</ol>
+
+<h2 id="la-classe-disk">La classe <code class="language-plaintext highlighter-rouge">Disk</code></h2>
+
+<p>Come abbiamo visto, il valore esatto della costante <code class="language-plaintext highlighter-rouge">N</code> non
+influisce sulla startegia di gioco. Per questo motivo, è conveniente
+definire un nome simbolico corrispondente, in modo che sia semplice
+verificare il funzionamento del programma al variare di <code class="language-plaintext highlighter-rouge">N</code>.</p>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">const</span> <span class="kt">int</span> <span class="n">N</span> <span class="o">=</span> <span class="mi">7</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p>Ora realizziamo una classe <code class="language-plaintext highlighter-rouge">Disk</code> le cui istanze corrispondono ai
+dischi del gioco. La rappresentazione di un disco consiste in un
+numero intero <code class="language-plaintext highlighter-rouge">size</code> che ne stabilisce la dimensione. Assumiamo che
+tale numero sia compreso tra 1 (la dimensione del disco più piccolo)
+ed <code class="language-plaintext highlighter-rouge">N</code> (la dimensione del disco più grande).</p>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Disk</span> <span class="p">{</span>
+<span class="nl">private:</span>
+  <span class="kt">int</span> <span class="n">size</span><span class="p">;</span> <span class="c1">// 1 &lt;= size &lt;= N</span>
+<span class="nl">public:</span>
+  <span class="n">Disk</span><span class="p">(</span><span class="kt">int</span><span class="p">);</span>
+  <span class="kt">int</span> <span class="n">get_size</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="n">size</span><span class="p">;</span> <span class="p">}</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">to_string</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+<span class="p">};</span>
+</code></pre></div></div>
+
+<p>Il costruttore della classe <code class="language-plaintext highlighter-rouge">Disk</code> si limita a inizializzare il
+campo <code class="language-plaintext highlighter-rouge">size</code>, una volta appurato che il valore fornito come
+argomento ricade nell’intervallo lecito.</p>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Disk</span><span class="o">::</span><span class="n">Disk</span><span class="p">(</span><span class="kt">int</span> <span class="n">s</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">s</span> <span class="o">&lt;</span> <span class="mi">1</span> <span class="o">||</span> <span class="n">s</span> <span class="o">&gt;</span> <span class="n">N</span><span class="p">)</span>
+    <span class="k">throw</span> <span class="n">std</span><span class="o">::</span><span class="n">domain_error</span><span class="p">(</span><span class="s">"invalid disk size"</span><span class="p">);</span>
+  <span class="n">size</span> <span class="o">=</span> <span class="n">s</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Il metodo <code class="language-plaintext highlighter-rouge">get_size</code>, definito direttamente all’interno della
+classe, serve per conoscere la dimensione di un disco.</p>
+
+<p>Il metodo <code class="language-plaintext highlighter-rouge">to_string</code> restituisce una rappresentazione testuale del
+disco che possa essere visualizzata sul terminale. Stabiliamo di
+rappresentare un disco di dimensione $n$ con una stringa di $2N + 1$
+caratteri così composta: $N - n$ spazi seguiti da $2n + 1$ caratteri
+‘<code class="language-plaintext highlighter-rouge">#</code>’ seguiti da altri $N - n$ spazi. In questo modo ogni disco è
+rappresentato da una stringa la cui lunghezza non dipende dalla
+dimensione del disco stesso, il che semplifica l’allineamento di
+dischi nella stessa torre.</p>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">Disk</span><span class="o">::</span><span class="n">to_string</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="n">N</span> <span class="o">-</span> <span class="n">size</span><span class="p">,</span> <span class="sc">' '</span><span class="p">)</span> <span class="o">+</span>
+         <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">size</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="sc">'#'</span><span class="p">)</span> <span class="o">+</span>
+         <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="n">N</span> <span class="o">-</span> <span class="n">size</span><span class="p">,</span> <span class="sc">' '</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>In questo metodo usiamo il costruttore della classe <code class="language-plaintext highlighter-rouge">std::string</code>
+che accetta due argomenti, un numero $k$ ed un carattere $c$, per
+costruire la stringa composta da $k$ caratteri $c$. Notiamo anche
+l’uso dell’operatore <code class="language-plaintext highlighter-rouge">+</code> che, quando applicato a stringhe,
+rappresenta l’operazione di <strong>concatenazione</strong>. In altri termini, se
+$s$ e $t$ sono oggetti di tipo <code class="language-plaintext highlighter-rouge">std::string</code>, allora $s + t$ è la
+stringa ottenuta giustapponendo i caratteri in $s$ con i caratteri
+in $t$.</p>
+
+<h2 id="la-classe-tower">La classe <code class="language-plaintext highlighter-rouge">Tower</code></h2>
+
+<p>Come abbiamo visto una “torre” non è altro che una pila di
+dischi. Considerato che i dischi possono essere inseriti e rimossi
+solo dalla cima della pila, è conveniente usare un contenitore
+<code class="language-plaintext highlighter-rouge">std::vector</code> per rappresentare lo stato della torre, in cui gli
+elementi all’inizio del vettore sono quelli alla base della
+torre. Ricordiamo infatti che le operazioni di inserimento e
+rimozione di elementi alla <em>fine</em> di un vettore sono efficienti.</p>
+
+<p>Segue la definizione della classe <code class="language-plaintext highlighter-rouge">Tower</code>. Si noti l’invariante di
+classe che stabilisce una condizione specifica delle torri nel
+gioco: diametri di dischi diversi nella stessa torre devono essere
+in relazione opposta ai loro livelli (il livello 0 corrisponde alla
+base della torre).</p>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Tower</span> <span class="p">{</span>
+<span class="nl">private:</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">Disk</span><span class="o">&gt;</span> <span class="n">disks</span><span class="p">;</span>
+  <span class="c1">// 0 &lt;= i &lt; j &lt; disks.size() =&gt;</span>
+  <span class="c1">// disks[i].get_size() &gt; disks[j].get_size()</span>
+  <span class="kt">void</span> <span class="n">push</span><span class="p">(</span><span class="k">const</span> <span class="n">Disk</span><span class="o">&amp;</span><span class="p">);</span>
+  <span class="n">Disk</span> <span class="n">pop</span><span class="p">();</span>
+  <span class="k">const</span> <span class="n">Disk</span><span class="o">&amp;</span> <span class="n">top</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+<span class="nl">public:</span>
+  <span class="n">Tower</span><span class="p">(</span><span class="kt">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">);</span>
+  <span class="kt">void</span> <span class="n">move_to</span><span class="p">(</span><span class="n">Tower</span><span class="o">&amp;</span><span class="p">);</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">to_string</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span> <span class="k">const</span><span class="p">;</span>
+<span class="p">};</span>
+</code></pre></div></div>
+
+<p>Per la natura del gioco, in cui le torri sono formate da dischi
+<strong>impilati</strong> uno sull’altro ed è possibile agire esclusivamente
+sulla sommità di una torre, dotiamo la classe <code class="language-plaintext highlighter-rouge">Tower</code> di tre metodi
+corrispondenti alle operazioni fondamentali della <a href="https://it.wikipedia.org/wiki/Pila_(informatica)"><strong>struttura dati
+pila</strong></a>, che
+tipicamente prendono il nome di <code class="language-plaintext highlighter-rouge">push</code>, <code class="language-plaintext highlighter-rouge">pop</code> e <code class="language-plaintext highlighter-rouge">top</code>. Questi metodi
+sono <strong>privati</strong> in quanto utilizzati esclusivamente all’interno
+della classe <code class="language-plaintext highlighter-rouge">Tower</code>.</p>
+
+<p>Il metodo <code class="language-plaintext highlighter-rouge">top</code> restituisce un riferimento al disco che si trova in
+cima alla torre, ammesso che la torre non sia vuota. Da notare l’uso
+del metodo <code class="language-plaintext highlighter-rouge">back</code> sul vettore <code class="language-plaintext highlighter-rouge">disk</code>, che restituisce un riferimento
+all’ultimo elemento del vettore e dunque al disco in cima alla
+torre:</p>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">const</span> <span class="n">Disk</span><span class="o">&amp;</span> <span class="n">Tower</span><span class="o">::</span><span class="n">top</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">disks</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span>
+    <span class="k">throw</span> <span class="n">std</span><span class="o">::</span><span class="n">domain_error</span><span class="p">(</span><span class="s">"empty tower"</span><span class="p">);</span>
+  <span class="k">return</span> <span class="n">disks</span><span class="p">.</span><span class="n">back</span><span class="p">();</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Il metodo <code class="language-plaintext highlighter-rouge">push</code> inserisce un disco in cima alla torre dopo aver
+verificato che tale inserimento sia lecito, ovvero che il disco
+eventualmente già presente in cima alla torre abbia un diametro
+superiore a quello che si sta inserendo:</p>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="n">Tower</span><span class="o">::</span><span class="n">push</span><span class="p">(</span><span class="k">const</span> <span class="n">Disk</span><span class="o">&amp;</span> <span class="n">d</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">disks</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">top</span><span class="p">().</span><span class="n">get_size</span><span class="p">()</span> <span class="o">&lt;=</span> <span class="n">d</span><span class="p">.</span><span class="n">get_size</span><span class="p">())</span>
+    <span class="k">throw</span> <span class="n">std</span><span class="o">::</span><span class="n">domain_error</span><span class="p">(</span><span class="s">"illegal move"</span><span class="p">);</span>
+  <span class="n">disks</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">d</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Il metodo <code class="language-plaintext highlighter-rouge">pop</code> rimuove il disco in cima alla torre, ammesso che la
+torre ne contenga almeno uno.  Si noti l’uso di una variabile locale
+<code class="language-plaintext highlighter-rouge">d</code> per memorizzare il disco che viene estratto ed il fatto che il
+metodo si affida al controllo effettuato nel metodo <code class="language-plaintext highlighter-rouge">top</code> per
+assicurarsi di agire esclusivamente su torri non vuote:</p>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Disk</span> <span class="n">Tower</span><span class="o">::</span><span class="n">pop</span><span class="p">()</span> <span class="p">{</span>
+  <span class="n">Disk</span> <span class="n">d</span> <span class="o">=</span> <span class="n">top</span><span class="p">();</span>
+  <span class="n">disks</span><span class="p">.</span><span class="n">pop_back</span><span class="p">();</span>
+  <span class="k">return</span> <span class="n">d</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Veniamo ora alla parte pubblica della classe. Innanzi tutto, dotiamo
+la classe <code class="language-plaintext highlighter-rouge">Tower</code> di un costruttore con un argomento (opzionale) $n$
+di tipo intero per creare una torre di $n$ dischi. Evidentemente,
+per rispettare il vincolo sulla dimensione di dischi impilati uno
+sull’altro, i dischi devono essere inseriti (tramite il metodo
+<code class="language-plaintext highlighter-rouge">push</code>) a partire da quello con diametro più grande. Nel caso
+particolare in cui il costruttore di <code class="language-plaintext highlighter-rouge">Tower</code> è usato senza
+argomenti, il valore di default scelto per <code class="language-plaintext highlighter-rouge">n</code> (cioè 0) causa la
+creazione di una torre vuota.</p>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Tower</span><span class="o">::</span><span class="n">Tower</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">--</span><span class="p">)</span>
+    <span class="n">push</span><span class="p">(</span><span class="n">Disk</span><span class="p">(</span><span class="n">i</span><span class="p">));</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Definiamo ora un metodo <code class="language-plaintext highlighter-rouge">move_to</code> che trasferisce un disco da una
+torre (l’oggetto ricevente l’invocazione del metodo) a un’altra
+(l’argomento del metodo). Il metodo non effettua alcun controllo
+sulla legalità della mossa in quanto tutte le verifiche del caso
+sono già effettuate nei metodi <code class="language-plaintext highlighter-rouge">push</code> e <code class="language-plaintext highlighter-rouge">pop</code> su cui si basa:</p>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="n">Tower</span><span class="o">::</span><span class="n">move_to</span><span class="p">(</span><span class="n">Tower</span><span class="o">&amp;</span> <span class="n">tower</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">tower</span><span class="p">.</span><span class="n">push</span><span class="p">(</span><span class="n">pop</span><span class="p">());</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>L’ultimo metodo rilevante è <code class="language-plaintext highlighter-rouge">to_string</code> per la visualizzazione di
+una torre. Siccome vogliamo mostrare le tre torri del gioco una di
+fianco all’altra e non abbiamo la possibilità di stampare
+informazioni sul terminale in posizioni arbitrarie, ma procedendo da
+sinistra a destra e dall’alto al basso, siamo costretti a realizzare
+<code class="language-plaintext highlighter-rouge">to_string</code> in modo “parziale”, concentrandoci su un particolare
+livello della torre. Se la torre contiene un disco a quel livello,
+si invoca il metodo <code class="language-plaintext highlighter-rouge">to_string</code> corrispondente. Se, al contrario, la
+torre non ha alcun disco al livello richiesto, allora si produce una
+stringa di lunghezza $2N + 1$ composta da $2N$ spazi e da un
+carattere ‘<code class="language-plaintext highlighter-rouge">|</code>’ in posizione centrale, che rappresenta in forma
+stilizzata il paletto attorno al quale la torre è costruita:</p>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">Tower</span><span class="o">::</span><span class="n">to_string</span><span class="p">(</span><span class="kt">int</span> <span class="n">level</span><span class="p">)</span> <span class="k">const</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">level</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="k">throw</span> <span class="n">std</span><span class="o">::</span><span class="n">domain_error</span><span class="p">(</span><span class="s">"invalid level"</span><span class="p">);</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">level</span> <span class="o">&lt;</span> <span class="n">disks</span><span class="p">.</span><span class="n">size</span><span class="p">())</span>
+    <span class="k">return</span> <span class="n">disks</span><span class="p">[</span><span class="n">level</span><span class="p">].</span><span class="n">to_string</span><span class="p">();</span>
+  <span class="k">else</span>
+    <span class="k">return</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="sc">' '</span><span class="p">)</span> <span class="o">+</span> <span class="s">"|"</span> <span class="o">+</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="sc">' '</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h2 id="la-classe-hanoi">La classe <code class="language-plaintext highlighter-rouge">Hanoi</code></h2>
+
+<p>La classe <code class="language-plaintext highlighter-rouge">Hanoi</code> rappresenta l’intero gioco ed il suo stato
+consiste in un vettore di torri.  Tecnicamente l’uso di un vettore
+per memorizzare le tre torri non è strettamente necessario, dal
+momento che il numero di torri è fissato dalla struttura del
+gioco. Dunque, avremmo potuto dichiarare tre campi, ciascuno di tipo
+<code class="language-plaintext highlighter-rouge">Tower</code>, per rappresentare le tre torri invece di un unico
+vettore. La convenienza della rappresentazione scelta deeriva dal
+fatto che in questo modo possiamo fare riferimento alle tre torri
+per mezzo di un indice numerico che può essere calcolato facilmente.</p>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Hanoi</span> <span class="p">{</span>
+<span class="nl">private:</span>
+  <span class="kt">int</span> <span class="n">moves</span><span class="p">;</span>                 <span class="c1">// moves &gt;= 0</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">Tower</span><span class="o">&gt;</span> <span class="n">towers</span><span class="p">;</span> <span class="c1">// towers.size() == 3</span>
+  <span class="kt">void</span> <span class="n">play</span><span class="p">(</span><span class="kt">int</span><span class="p">,</span> <span class="kt">int</span><span class="p">,</span> <span class="kt">int</span><span class="p">);</span>
+  <span class="kt">void</span> <span class="n">print</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+<span class="nl">public:</span>
+  <span class="n">Hanoi</span><span class="p">();</span>
+  <span class="kt">void</span> <span class="n">play</span><span class="p">();</span>
+<span class="p">};</span>
+</code></pre></div></div>
+
+<p>Il costruttore di <code class="language-plaintext highlighter-rouge">Hanoi</code> crea le tre torri avendo cura di
+inizializzare la prima in modo che contenga tutti gli <code class="language-plaintext highlighter-rouge">N</code> dischi
+nell’ordine desiderato:</p>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Hanoi</span><span class="o">::</span><span class="n">Hanoi</span><span class="p">()</span> <span class="p">{</span>
+  <span class="n">towers</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">Tower</span><span class="p">(</span><span class="n">N</span><span class="p">));</span>
+  <span class="n">towers</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">Tower</span><span class="p">());</span>
+  <span class="n">towers</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">Tower</span><span class="p">());</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Ci sono due metodi <code class="language-plaintext highlighter-rouge">play</code> che risolvono il gioco. Il metodo
+pubblico, privo di argomenti, è l’unico che l’utilizzatore della
+classe è interessato a invocare e risolve il gioco interamente. Tale
+metodo si limita a invocare l’omonimo metodo privato specificando
+che l’obiettivo è quello di spostare tutti gli <code class="language-plaintext highlighter-rouge">N</code> dischi dalla
+prima alla terza torre:</p>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="n">Hanoi</span><span class="o">::</span><span class="n">play</span><span class="p">()</span> <span class="p">{</span>
+  <span class="n">play</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Il metodo privato <code class="language-plaintext highlighter-rouge">play</code> ha tre argomenti <code class="language-plaintext highlighter-rouge">n</code>, <code class="language-plaintext highlighter-rouge">from</code> e <code class="language-plaintext highlighter-rouge">to</code> e
+risolve il gioco generalizzato in cui si vogliono spostare <code class="language-plaintext highlighter-rouge">n</code>
+dischi dalla torre con indice <code class="language-plaintext highlighter-rouge">from</code> alla torre con indice <code class="language-plaintext highlighter-rouge">to</code>. Il
+metodo è <strong>ricorsivo</strong>, coerentemente con la descrizione informale
+della strategia di gioco che abbiamo dato in precedenza:</p>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="n">Hanoi</span><span class="o">::</span><span class="n">play</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">,</span> <span class="kt">int</span> <span class="n">from</span><span class="p">,</span> <span class="kt">int</span> <span class="n">to</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">from</span> <span class="o">&lt;</span> <span class="mi">1</span> <span class="o">||</span> <span class="n">from</span> <span class="o">&gt;</span> <span class="mi">3</span> <span class="o">||</span> <span class="n">to</span> <span class="o">&lt;</span> <span class="mi">1</span> <span class="o">||</span> <span class="n">to</span> <span class="o">&gt;</span> <span class="mi">3</span> <span class="o">||</span> <span class="n">from</span> <span class="o">==</span> <span class="n">to</span><span class="p">)</span>
+    <span class="k">throw</span> <span class="n">std</span><span class="o">::</span><span class="n">domain_error</span><span class="p">(</span><span class="s">"invalid towers"</span><span class="p">);</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">help</span> <span class="o">=</span> <span class="mi">6</span> <span class="o">-</span> <span class="n">from</span> <span class="o">-</span> <span class="n">to</span><span class="p">;</span>
+    <span class="n">play</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">from</span><span class="p">,</span> <span class="n">help</span><span class="p">);</span>
+    <span class="n">towers</span><span class="p">[</span><span class="n">from</span> <span class="o">-</span> <span class="mi">1</span><span class="p">].</span><span class="n">move_to</span><span class="p">(</span><span class="n">towers</span><span class="p">[</span><span class="n">to</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]);</span>
+    <span class="n">play</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">help</span><span class="p">,</span> <span class="n">to</span><span class="p">);</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="n">print</span><span class="p">();</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Fatti i dovuti controlli sulla correttezza degli argomenti <code class="language-plaintext highlighter-rouge">from</code> e
+<code class="language-plaintext highlighter-rouge">to</code>, il metodo prevede due casi. Il caso base, in cui $n = 0$ e non
+ci sono dischi da spostare, si occupa di invocare il metodo <code class="language-plaintext highlighter-rouge">print</code>
+che, come suggerisce il nome e come vedremo tra breve, visualizza lo
+stato di gioco sul terminale. In questo modo potremo osservare come
+evolve lo stato del gioco ogni volta che viene effettuata una
+mossa. Il caso ricorsivo, in cui ci sono $n &gt; 0$ dischi da spostare,
+realizza la strategia di gioco già descritta:</p>
+
+<ul>
+  <li>Per prima cosa calcoliamo l’indice della torre “di appoggio” che
+useremo come deposito temporaneo per gli $n - 1$ dischi più
+piccoli tra gli $n$ da spostare. Memorizziamo tale indice nella
+variabile locale <code class="language-plaintext highlighter-rouge">help</code>.</li>
+  <li>Con la chiamata ricorsiva <code class="language-plaintext highlighter-rouge">play(n - 1, from, help)</code> spostiamo gli
+$n - 1$ dischi più piccoli dalla torre <code class="language-plaintext highlighter-rouge">from</code> a quella di appoggio.</li>
+  <li>A questo punto possiamo spostare il disco di diametro più grande
+(tra gli $n$ che stiamo considerando) dalla torre <code class="language-plaintext highlighter-rouge">from</code> alla
+torre <code class="language-plaintext highlighter-rouge">to</code>, facendo attenzione a sottrarre uno dagli indici delle
+torri coinvolte (si ricorda che il <strong>primo</strong> elemento di un
+vettore ha indice 0, il <strong>secondo</strong> elemento di un vettore ha
+indice 1, e via dicendo).</li>
+  <li>Con la chiamata ricorsiva <code class="language-plaintext highlighter-rouge">play(n - 1, help, to)</code> spostiamo gli
+$n - 1$ dischi più piccoli dalla torre di appoggio alla torre
+<code class="language-plaintext highlighter-rouge">to</code>.</li>
+</ul>
+
+<p>Completiamo la classe <code class="language-plaintext highlighter-rouge">Hanoi</code> con la realizzazione del metodo
+<code class="language-plaintext highlighter-rouge">print</code>, che visualizza il contenuto delle tre torri sul terminale:</p>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">level</span> <span class="o">=</span> <span class="n">N</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span> <span class="n">level</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">level</span><span class="o">--</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+      <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">towers</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">to_string</span><span class="p">(</span><span class="n">level</span><span class="p">);</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p>Infine, un semplice <code class="language-plaintext highlighter-rouge">main</code> ci consente di verificare la corretta
+risoluzione del gioco:</p>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+  <span class="n">Hanoi</span> <span class="n">hanoi</span><span class="p">;</span>
+  <span class="n">hanoi</span><span class="p">.</span><span class="n">play</span><span class="p">();</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Per esempio, nel caso in cui <code class="language-plaintext highlighter-rouge">N</code> è uguale a 3, otteniamo</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  ###     |      |
+ #####    |      |
+#######   |      |
+
+
+   |      |      |
+ #####    |      |
+#######   |     ###
+
+
+   |      |      |
+   |      |      |
+####### #####   ###
+
+
+   |      |      |
+   |     ###     |
+####### #####    |
+
+
+   |      |      |
+   |     ###     |
+   |    ##### #######
+
+
+   |      |      |
+   |      |      |
+  ###   ##### #######
+
+
+   |      |      |
+   |      |    #####
+  ###     |   #######
+
+
+   |      |     ###
+   |      |    #####
+   |      |   #######
+</code></pre></div></div>
+
+<p>Il codice completo relativo a questo caso di studio è <a href="assets/code/hanoi.cc">incluso
+nell’archivio</a>.</p>
+
+<div class="footer">
+  <p><img class="license-icon" src="assets/images/by-nc-sa.svg" width="60px" />
+Ad eccezione dell’immagine, tratta da Wikipedia, tutto il materiale didattico incluso è distribuito con licenza <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.it">CC
+BY-NC-SA
+4.0</a>. Documento generato il 06/04/2022.</p>
+</div>
+
+    </div>
+    <script type="text/javascript" src="../js/mathjax.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+  </body>
+</html>

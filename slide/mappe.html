@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Mappe</title>
+    <script>
+      (function() {
+	  if (window.location.search != "?handout") {
+	      document.write('<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/reveal.js@3.9.2/css/reveal.css">');
+	  }
+      })();
+    </script>
+    <link rel="stylesheet" type="text/css" href="../assets/css/vs.css">
+    <link rel="stylesheet" type="text/css" href="../assets/css/main.css">
+  </head>
+  <body>
+    <div class="reveal">
+      <div id="root" class="slides">
+	<h1 class="no_toc" id="programmazione-avanzata">PROGRAMMAZIONE AVANZATA</h1>
+
+<h2 class="sezione" id="6-mappe">6 Mappe</h2>
+
+<ul class="smaller" id="markdown-toc">
+  <li><a href="#sommario" id="markdown-toc-sommario">Sommario</a></li>
+  <li><a href="#mappe" id="markdown-toc-mappe">Mappe</a></li>
+  <li><a href="#perché-il-nome-mappa" id="markdown-toc-perché-il-nome-mappa">Perché il nome “mappa”?</a></li>
+  <li><a href="#esempio" id="markdown-toc-esempio">Esempio</a></li>
+  <li><a href="#soluzione-definizioni-di-base" id="markdown-toc-soluzione-definizioni-di-base">Soluzione: definizioni di base</a></li>
+  <li><a href="#add_word_map" id="markdown-toc-add_word_map">Lettura e inserimento delle parole</a></li>
+  <li><a href="#creazione-e-ordinamento-del-vettore" id="markdown-toc-creazione-e-ordinamento-del-vettore">Creazione e ordinamento del vettore</a></li>
+  <li><a href="#programma-principale" id="markdown-toc-programma-principale">Programma principale</a></li>
+  <li><a href="#esercizi" id="markdown-toc-esercizi">Esercizi</a></li>
+</ul>
+
+<div class="license">
+  <p><img class="license-icon" src="../assets/images/by-nc-sa.svg" width="80px" />
+Documento distribuito con licenza <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.it">CC BY-NC-SA 4.0</a>. Generato il 06/04/2022.</p>
+</div>
+
+<h1 id="sommario">Sommario</h1>
+
+<ul>
+  <li>Illustriamo il contenitore associativo <strong>mappa</strong></li>
+  <li>Usiamo le mappe congiuntamente ad alcuni algoritmi predefiniti
+nella libreria standard del C++ per realizzare un programma che
+calcola la <strong>frequenza</strong> delle parole in un testo (a titolo di
+esempio usiamo <a href="../../assets/code/mappe/i_promessi_sposi.txt">questa versione de “I promessi
+sposi”</a>)</li>
+</ul>
+
+<h1 id="mappe">Mappe</h1>
+
+<h2 id="definizione">Definizione</h2>
+
+<p>Una <strong>mappa</strong> è un contenitore i cui elementi sono coppie $(k,v)$
+formate da una <strong>chiave</strong> $k$ e da un <strong>valore</strong> $v$ associato a
+quella chiave con la proprietà che <em>non ci sono due coppie con la
+stessa chiave</em>.</p>
+
+<ul>
+  <li>La mappa è realizzata in maniera tale che inserimento,
+cancellazione, <strong>ricerca</strong> per chiave sono operazioni
+(relativamente) efficienti</li>
+  <li>Il tempo per effettuare una di queste operazioni è proporzionale a
+$\log_2(n)$ dove $n$ è il numero di elementi nella mappa</li>
+  <li><strong>Attenzione</strong>: il tempo per <strong>cercare un valore</strong> all’interno
+della mappa rimane proporzionale al numero di elementi della
+mappa.</li>
+</ul>
+
+<h2 id="esempi-di-mappe-nel-mondo-reale">Esempi di mappe nel mondo reale</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">Mappa</th>
+      <th style="text-align: left">Chiave</th>
+      <th style="text-align: left">Valore</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">Legenda</td>
+      <td style="text-align: left">simbolo/colore</td>
+      <td style="text-align: left">significato</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">Dizionario italiano-inglese</td>
+      <td style="text-align: left">parola in italiano</td>
+      <td style="text-align: left">parola in inglese</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">Indice analitico di un testo</td>
+      <td style="text-align: left">voce</td>
+      <td style="text-align: left">pagina in cui occorre</td>
+    </tr>
+  </tbody>
+</table>
+
+<h1 id="perché-il-nome-mappa">Perché il nome “mappa”?</h1>
+
+<p>Una mappa $m$ di elementi $(k, v)$ in cui le chiavi hanno tipo $T$
+ed i valori tipo $S$ può essere vista come una <strong>funzione parziale</strong></p>
+
+<p>\[
+	m : T \hookrightarrow S
+\]</p>
+
+<p>il cui dominio è un <strong>sottoinsieme finito</strong> di $T$ (insieme
+totalmente ordinato)</p>
+
+<ul>
+  <li>
+    <p><strong>Cercare</strong> il valore associato a una chiave $k$ significa
+<em>applicare</em> $m$ a $k$</p>
+
+    <p>\[
+  m(k) = v \iff \text{$(k, v)$ è un elemento della mappa}
+ \]</p>
+  </li>
+  <li>
+    <p><strong>Inserire</strong> un elemento in $m$ significa <em>estendere</em> il dominio
+di $m$</p>
+  </li>
+  <li>
+    <p><strong>Rimuovere</strong> un elemento da $m$ significa <em>restringere</em> il
+dominio di $m$</p>
+  </li>
+</ul>
+
+<h1 id="esempio">Esempio</h1>
+
+<h2 id="descrizione-del-problema">Descrizione del problema</h2>
+
+<p>Realizzare un programma che visualizzi le <strong>10 parole più
+frequenti</strong> che si trovano in un testo, in <strong>ordine decrescente</strong> di
+frequenza.</p>
+
+<div class="fragment ">
+  <h2 id="strategia">Strategia</h2>
+
+  <ol>
+    <li><strong>Creare una mappa</strong> di coppie $(p,c)$ in cui $p$ è una parola
+del testo e $c$ è il numero di volte che $p$ occorre nel
+testo. La mappa è inizialmente <strong>vuota</strong>.</li>
+    <li><strong>Leggere</strong> una ad una le parole del testo. Per ogni parola $p$
+trovata nel testo si procede come segue:
+      <ul>
+        <li>se nella mappa non c’è alcuna coppia $(p, c)$, <strong>inserire</strong>
+$(p, 1)$;</li>
+        <li>se nella mappa c’è una coppia $(p, c)$, <strong>modificarla</strong> in $(p,
+c + 1)$.</li>
+      </ul>
+    </li>
+    <li><strong>Copiare</strong> le coppie dalla mappa in un <strong>vettore</strong>.</li>
+    <li><strong>Ordinare</strong> il vettore in modo decrescente in base alla seconda
+componente delle coppie.</li>
+    <li><strong>Stampare</strong> i primi 10 elementi del vettore.</li>
+  </ol>
+</div>
+
+<h1 id="soluzione-definizioni-di-base">Soluzione: definizioni di base</h1>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="c1">   // stampa su terminale</span><span class="cp">
+#include</span> <span class="cpf">&lt;fstream&gt;</span><span class="c1">    // lettura da file</span><span class="cp">
+#include</span> <span class="cpf">&lt;map&gt;</span><span class="c1">        // fasi 1 e 2</span><span class="cp">
+#include</span> <span class="cpf">&lt;vector&gt;</span><span class="c1">     // fasi 3-5</span><span class="cp">
+#include</span> <span class="cpf">&lt;algorithm&gt;</span><span class="c1">  // fase 4</span><span class="cp">
+#include</span> <span class="cpf">&lt;cctype&gt;</span><span class="c1">     // filtro per i caratteri</span><span class="cp">
+</span>
+<span class="k">typedef</span> <span class="n">std</span><span class="o">::</span><span class="n">pair</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">,</span> <span class="kt">int</span><span class="o">&gt;</span> <span class="n">WordCount</span><span class="p">;</span>
+<span class="k">typedef</span> <span class="n">std</span><span class="o">::</span><span class="n">map</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">,</span> <span class="kt">int</span><span class="o">&gt;</span>  <span class="n">WordCountMap</span><span class="p">;</span>
+<span class="k">typedef</span> <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">WordCount</span><span class="o">&gt;</span>      <span class="n">WordCountVec</span><span class="p">;</span>
+</code></pre></div></div>
+
+<h2 id="note">Note</h2>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">std::pair&lt;T,S&gt;</code> è il <strong>tipo delle coppie</strong> in cui la <strong>prima
+componente</strong> ha tipo <code class="language-plaintext highlighter-rouge">T</code> e la <strong>seconda componente</strong> ha tipo
+<code class="language-plaintext highlighter-rouge">S</code>. Tali componenti sono memorizzate in due <strong>campi pubblici</strong>
+chiamati <code class="language-plaintext highlighter-rouge">first</code> e <code class="language-plaintext highlighter-rouge">second</code>.</li>
+  <li><code class="language-plaintext highlighter-rouge">std::map&lt;T,S&gt;</code> è il <strong>tipo delle mappe</strong> in cui le chiavi hanno
+tipo <code class="language-plaintext highlighter-rouge">T</code> ed i valori hanno tipo <code class="language-plaintext highlighter-rouge">S</code>. Una mappa di tipo
+<code class="language-plaintext highlighter-rouge">std::map&lt;T,S&gt;</code> ha elementi di tipo <code class="language-plaintext highlighter-rouge">std::pair&lt;T,S&gt;</code>.</li>
+  <li>Gli elementi della mappa <code class="language-plaintext highlighter-rouge">WordCountMap</code> hanno tipo <code class="language-plaintext highlighter-rouge">WordCount</code>.</li>
+</ul>
+
+<h1 id="add_word_map">Lettura e inserimento delle parole</h1>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">WordCountMap</span> <span class="nf">read_word_map</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">istream</span><span class="o">&amp;</span> <span class="n">is</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">WordCountMap</span> <span class="n">m</span><span class="p">;</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">w</span><span class="p">;</span>
+  <span class="k">while</span> <span class="p">(</span><span class="n">is</span> <span class="o">&gt;&gt;</span> <span class="n">w</span><span class="p">)</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">valid</span><span class="p">(</span><span class="n">w</span><span class="p">))</span> <span class="n">m</span><span class="p">[</span><span class="n">w</span><span class="p">]</span><span class="o">++</span><span class="p">;</span>
+  <span class="k">return</span> <span class="n">m</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h2 id="note-1">Note</h2>
+
+<ul>
+  <li>La funzione <code class="language-plaintext highlighter-rouge">valid</code> controlla che <code class="language-plaintext highlighter-rouge">w</code> sia composta esclusivamente
+da caratteri alfabetici (si veda il <a href="../assets/code/mappe/wf.cc">codice
+sorgente</a> per la realizzazione).</li>
+  <li><code class="language-plaintext highlighter-rouge">m[w]</code> è un <strong>riferimento</strong> al valore associato alla chiave <code class="language-plaintext highlighter-rouge">w</code>
+nella mappa <code class="language-plaintext highlighter-rouge">m</code>.</li>
+  <li>Se la mappa non contiene la chiave <code class="language-plaintext highlighter-rouge">w</code>, viene inserita e associata
+al valore di default del tipo del valore (nel caso dei numeri è 0)</li>
+  <li>La notazione <code class="language-plaintext highlighter-rouge">m[w]</code> è simile a quella usata per accedere a
+elementi di array e vettori, ma qui l’indice <code class="language-plaintext highlighter-rouge">w</code> <strong>non è un
+numero</strong>!</li>
+  <li>La notazione <code class="language-plaintext highlighter-rouge">m[w]</code> richiama quella dell’applicazione funzionale $m(w)$</li>
+</ul>
+
+<h1 id="creazione-e-ordinamento-del-vettore">Creazione e ordinamento del vettore</h1>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">bool</span> <span class="nf">Compare</span><span class="p">(</span><span class="k">const</span> <span class="n">WordCount</span><span class="o">&amp;</span> <span class="n">p</span><span class="p">,</span> <span class="k">const</span> <span class="n">WordCount</span><span class="o">&amp;</span> <span class="n">q</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="n">p</span><span class="p">.</span><span class="n">second</span> <span class="o">&gt;</span> <span class="n">q</span><span class="p">.</span><span class="n">second</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">WordCountVec</span> <span class="nf">sort_word_map</span><span class="p">(</span><span class="k">const</span> <span class="n">WordCountMap</span><span class="o">&amp;</span> <span class="n">m</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">WordCountVec</span> <span class="n">v</span> <span class="o">=</span> <span class="n">WordCountVec</span><span class="p">(</span><span class="n">m</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span> <span class="n">m</span><span class="p">.</span><span class="n">end</span><span class="p">());</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">sort</span><span class="p">(</span><span class="n">v</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span> <span class="n">v</span><span class="p">.</span><span class="n">end</span><span class="p">(),</span> <span class="n">Compare</span><span class="p">);</span>
+  <span class="k">return</span> <span class="n">v</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h2 id="note-2">Note</h2>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">WordCountVec(m.begin(), m.end())</code> crea un vettore copiandone gli
+elementi dalla mappa <code class="language-plaintext highlighter-rouge">m</code>.</li>
+  <li><code class="language-plaintext highlighter-rouge">std::sort(v.begin(), v.end(), Compare)</code> ordina il contenuto del
+vettore usando <code class="language-plaintext highlighter-rouge">Compare</code> come relazione d’ordine per gli elementi.</li>
+  <li><code class="language-plaintext highlighter-rouge">Compare</code> confronta due coppie considerando solo la seconda
+componente e stabilendo che $(p,c) &lt; (q,d)$ se e solo se $c &gt;
+d$. In questo modo l’ordinamento ottenuto è <em>decrescente</em> in base
+alla frequenza delle parole.</li>
+</ul>
+
+<h1 id="programma-principale">Programma principale</h1>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">ifstream</span> <span class="n">f</span><span class="p">(</span><span class="s">"i_promessi_sposi.txt"</span><span class="p">);</span>
+  <span class="n">WordCountMap</span> <span class="n">m</span> <span class="o">=</span> <span class="n">read_word_map</span><span class="p">(</span><span class="n">f</span><span class="p">);</span>
+  <span class="n">WordCountVec</span> <span class="n">v</span> <span class="o">=</span> <span class="n">sort_word_map</span><span class="p">(</span><span class="n">m</span><span class="p">);</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">10</span> <span class="o">&amp;&amp;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">v</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">second</span> <span class="o">&lt;&lt;</span> <span class="s">": "</span>
+              <span class="o">&lt;&lt;</span> <span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">first</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h2 id="nota">Nota</h2>
+
+<ul>
+  <li>Il programma deve essere eseguito nella stessa cartella in cui è
+presente il file <code class="language-plaintext highlighter-rouge">i_promessi_sposi.txt</code> che è <a href="../assets/code/mappe/i_promessi_sposi.txt">incluso
+nell’archivio</a>.</li>
+</ul>
+
+<h1 id="esercizi">Esercizi</h1>
+
+<ol>
+  <li>Modificare il programma che calcola la frequenza delle parole in
+un testo per cercare le 10 parole più frequenti che iniziano con
+una lettera maiuscola. Qual è il personaggio più citato de “I
+promessi sposi”?</li>
+  <li>Come faccio a sapere quante parole <strong>diverse</strong> compaiono ne “I
+promessi sposi”?</li>
+  <li>Qual è la parola più lunga che compare ne “I promessi sposi?” e
+quante volte compare?</li>
+  <li>Definire una classe <code class="language-plaintext highlighter-rouge">MultiSet</code> per rappresentare <strong>multinsiemi
+mutabili</strong> di numeri interi. A tale scopo usare una mappa i cui
+elementi sono coppie $(x,n)$ di numeri in cui $x$ è un elemento
+del multinsieme ed $n$ la sua <strong>molteplicità</strong>, ovvero il numero
+di occorrenze di $x$ nel multinsieme. Definire i seguenti metodi:
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">size</code> per calcolare la <strong>cardinalità</strong> del multinsieme;</li>
+      <li><code class="language-plaintext highlighter-rouge">operator[]</code> per determinare la molteplicità di un elemento nel
+multinsieme. <strong>Suggerimento</strong>: usare il metodo <code class="language-plaintext highlighter-rouge">find</code>;</li>
+      <li><code class="language-plaintext highlighter-rouge">insert(x, n)</code> per aggiungere <code class="language-plaintext highlighter-rouge">n</code> occorrenze di <code class="language-plaintext highlighter-rouge">x</code> al
+multinsieme;</li>
+      <li><code class="language-plaintext highlighter-rouge">remove(x, n)</code> per rimuovere <code class="language-plaintext highlighter-rouge">n</code> occorrenze di <code class="language-plaintext highlighter-rouge">x</code> dal
+multinsieme (attenzione!);</li>
+      <li><code class="language-plaintext highlighter-rouge">_union</code> per calcolare l’unione di due multinsiemi.</li>
+    </ul>
+  </li>
+</ol>
+
+      </div>
+    </div>
+    <script type="text/javascript" src="../js/slider.js"></script>
+    <script>
+      (function() {
+	  if (window.location.search != "?handout") {
+	      document.write('<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/reveal.js@3.9.2/js/reveal.min.js"><\/script>');
+	  }
+      })();
+    </script>
+    <script>
+      initialize_slider();
+      if (window.location.search != "?handout") {
+	  // Setup Reveal
+	  Reveal.initialize({
+	      controls:    false,  // No control arrows
+	      slideNumber: 'c/t',  // Print slide number
+	      center:      false,  // Do not align slide vertically
+	      progress:    false,  // Do not display progress bar
+	      hash:        true,   // Store slide number in URL
+	      transition:  'none', // Transition mode
+	      transitionSpeed: 'fast',
+	      width:       848,
+	      height:      600,
+	      margin:      0,
+	      pdfSeparateFragments: false,
+	  });
+      }
+    </script>
+    <script type="text/javascript" src="../js/mathjax.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+  </body>
+</html>

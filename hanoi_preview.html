@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Il gioco delle torri di Hanoi</title>
+    <link href="https://fonts.googleapis.com/css?family=Fira+Code:300,600|Fira+Sans:300,600&display=swap&subset=latin-ext" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css" href="https://use.fontawesome.com/releases/v5.10.1/css/all.css"/>
+    <link rel="stylesheet" type="text/css" href="assets/css/vs.css"/>
+    <style>
+      html {
+	  font-family: "Fira Sans", sans-serif;
+	  font-size: 16pt;
+	  background-image: url('assets/images/background.png');
+	  background-attachment: fixed;
+	  margin: 0;
+	  padding: 0;
+      }
+
+      pre, code {
+	  font-family: "Fira Code", monospace;
+      }
+
+      body {
+	  max-width: 900px;
+	  margin: 1ex auto;
+	  counter-reset: chapter;
+	  background-color: white;
+	  padding: 16px 32px;
+	  box-shadow: 0 0 4px 4px #A0A0A0;
+	  border-radius: 8px;
+      }
+
+      h1 {
+	  font-weight: 300;
+	  color: white;
+	  background: #004080;
+	  text-align: center;
+	  margin: -16px -32px 16px -32px;
+	  padding: 16px 32px;
+	  border-radius: 8px 8px 0 0;
+      }
+
+      h2 {
+	  /* margin: 0 -32px; */
+	  padding: 4px 0 0 0;
+      }
+
+      i.fas, i.far {
+	  font-size: smaller;
+	  margin: 0 0.25ex;
+      }
+
+      a, a:visited {
+	  color: teal;
+	  text-decoration: none;
+      }
+
+      a:hover {
+	  color: white;
+	  background-color: teal;
+	  border-radius: 0.5ex;
+	  margin: 0.1ex -0.25ex;
+	  padding: 0.1ex 0.25ex;
+	  text-decoration: none;
+      }
+
+      .legend {
+	  display: inline-block;
+	  width: 300px;
+	  padding: 0 8px 0 0;
+	  float: right;
+	  font-size: small;
+	  background: orange;
+	  border-radius: 3px;
+      }
+
+      .footer {
+	  display: inline-block;
+	  font-size: small;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root" class="index">
+      <h1 id="il-gioco-delle-torri-di-hanoi">Il gioco delle torri di Hanoi</h1>
+
+<p><img width="100%" src="https://upload.wikimedia.org/wikipedia/commons/0/07/Tower_of_Hanoi.jpeg" /></p>
+
+<h2 id="introduzione">Introduzione</h2>
+
+<p>In questo caso di studio scriviamo un programma C++ per risolvere il
+<a href="https://it.wikipedia.org/wiki/Torre_di_Hanoi">gioco delle torri di
+Hanoi</a>.  Nel gioco le
+torri consistono in <strong>pile di dischi</strong> inseriti in <strong>tre
+paletti</strong>. In tutto ci sono $N$ dischi di diametro differente, dove
+$N$ varia solitamente tra $7$ e $9$ (come vedremo, il valore di $N$
+non modifica la complessità del gioco ma solo la sua durata).
+All’inizio del gioco c’è un’unica torre formata da tutti gli $N$
+dischi impilati nel primo dei tre paletti, in ordine crescente di
+diametro, come in figura. L’obiettivo del gioco è spostare la torre
+dal primo al terzo paletto con una serie di <strong>mosse</strong> che devono
+rispettare due semplici regole:</p>
+
+<ol>
+  <li>è consentito spostare un solo disco a ogni mossa;</li>
+  <li>non è consentito collocare un disco sopra un altro di diametro
+inferiore.</li>
+</ol>
+
+<p>Il gioco può essere risolto usando un <strong>algoritmo ricorsivo</strong> che si
+basa sulle seguenti osservazioni. Innanzi tutto, il gioco ammette
+una soluzione banale quando $N = 0$, in quanto non ci sono dischi da
+spostare. Se invece $N &gt; 0$, allora assumendo che il gioco con gli
+$N - 1$ dischi più piccoli sia risolvibile, allora lo è anche quello
+con tutti gli $N$ dischi. Infatti, supponendo di partire dallo stato
+iniziale in cui gli $N$ dischi formano un’unica torre nel primo
+paletto, è possibile “ignorare” il disco di diametro più grande
+(quello alla base della torre) e risolvere una diversa istanza del
+gioco spostando gli $N - 1$ dischi rimanenti <em>dal primo al secondo</em>
+paletto. In questa fase, il disco più grande può essere di fatto
+“ignorato” proprio perché tutti gli altri hanno un diametro
+inferiore e dunque non sono possibili mosse illegali (ciascuno degli
+$N - 1$ dischi più piccoli può essere collocato sopra il disco più
+grande senza violare la regola 2). Terminata questa fase il disco
+più grande sarà l’unico rimasto nel primo paletto e potrà essere
+spostato al terzo paletto. A questo punto, ignorando di nuovo
+l’esistenza del disco più grande, si risolve una nuova istanza del
+gioco spostando gli $N - 1$ dischi <em>dal secondo al terzo</em>
+paletto.</p>
+
+<p>Avendo individuato un caso base ($N = 0$) e avendo mostrato come
+risolvere il gioco nel caso $N &gt; 0$ ipotizzando di riuscire a
+risolvere ogni istanza del gioco con $N - 1$ paletti, un semplice
+ragionamento induttivo ci consente di concludere che questa
+strategia porta sempre alla soluzione del gioco. È anche possibile
+dimostrare che questa strategia è <em>ottimale</em>, nel senso che è quella
+che risolve il gioco con il minor numero possibile di mosse, e che
+tale numero è pari a $2^N - 1$.</p>
+
+<h2 id="domande">Domande</h2>
+
+<p>Prima di iniziare a scrivere il programma C++ che risolve il gioco è
+importante fare un’<strong>analisi del problema</strong>, cercando di individuare
+le <strong>entità</strong> che devono essere modellate nel programma e quali sono
+le loro <strong>caratteristiche fondamentali</strong> ai fini della simulazione.</p>
+
+<ol>
+  <li>Guardando la figura in alto, quali sono gli <strong>oggetti</strong> che
+compongono il gioco?</li>
+  <li>È possibile raggruppare questi oggetti in <strong>classi</strong> tali che gli
+oggetti della stessa classe sono <em>simili tra loro</em> per
+caratteristiche e/o comportamento?</li>
+  <li>Quali <strong>relazioni</strong> esistono tra questi oggetti?</li>
+  <li>Quali di questi oggetti sono <strong>mutabili</strong>, ovvero hanno uno stato
+che può variare nel tempo, e quali invece sono <strong>immutabili</strong>?</li>
+  <li>Ci sono caratteristiche degli oggetti del gioco che sono
+<strong>ininfluenti</strong> ai fini della simulazione e dunque possono essere
+trascurate nel programma?</li>
+</ol>
+
+<div class="footer">
+  <p><img class="license-icon" src="assets/images/by-nc-sa.svg" width="60px" />
+Ad eccezione dell’immagine, tratta da Wikipedia, tutto il materiale didattico incluso è distribuito con licenza <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.it">CC
+BY-NC-SA
+4.0</a>. Documento generato il 06/04/2022.</p>
+</div>
+
+
+    </div>
+    <script type="text/javascript" src="../js/mathjax.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+  </body>
+</html>
