@@ -1,9 +1,9 @@
 My public github pages:
-- [Public Zettelkasten](pecciolidavide.github.io/public-zettelkasten)
-- [Secret Santa](pecciolidavide.github.io/secret_santa)
-- [Foggatore](pecciolidavide.github.io/foggatore)
-- [Library presences](pecciolidavide.github.io/biblio)
+- [Public Zettelkasten](public-zettelkasten)
+- [Secret Santa](secret_santa)
+- [Foggatore](foggatore)
+- [Library presences](biblio)
 
 Then the projects related to maths:
-- [Analisi Complessa](pecciolidavide.github.io/analisi-complessa)
-- [Curva di Peano](pecciolidavide.github.io/curva-peano)
+- [Analisi Complessa](analisi-complessa)
+- [Curva di Peano](curva-peano)
