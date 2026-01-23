@@ -1,5 +1,4 @@
 My public github pages:
-- [Public Zettelkasten](public-zettelkasten)
 - [Secret Santa](secret_santa)
 - [Foggatore](foggatore)
 - [Library presences](biblio)
@@ -7,3 +6,6 @@ My public github pages:
 Then the projects related to maths:
 - [Analisi Complessa](analisi-complessa)
 - [Curva di Peano](curva-peano)
+
+Courses:
+- [Descriptive Set Theory (*in Italiano*)](LM_tdi)
