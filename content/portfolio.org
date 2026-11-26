@@ -15,6 +15,7 @@
 
 - Some notes about Model Theory, from the Prof. Barbina's course at /Scuola Estiva di Logica 2025/:
   - [[file:files/tdm.pdf][pdf]] (italian)
+  - [[https://github.com/pecciolidavide/SEL2025-Notes][repo]]
 - My seminar for the Prof. Andretta's course *Descriptive Set Theory*, about Banach-Mazur games:
   - [[file:files/banach-mazur-handout.pdf][handout pdf]] (italian)
   - [[file:files/banach-mazur-slides.pdf][slides pdf]] (italian)
