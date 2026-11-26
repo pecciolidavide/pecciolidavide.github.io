@@ -5,7 +5,7 @@
 :CUSTOM_ID: theses
 :END:
 
-- 2026--present :: *Master's thesis*, /Continuous logic within a classical setting/
+- 2026--present :: *Master's thesis*, Work in Progress
   - Supervisor: Prof. Domenico Zambella
 - 2024 :: *Bachelor's thesis*, /Flusso di campi vettoriali su varietà e parentesi di Lie: un approccio non standard/
   - Supervisor: Prof. Luca Motto Ros
@@ -14,7 +14,7 @@
 * Other works
 
 - Some notes about Model Theory, from the Prof. Barbina's course at /Scuola Estiva di Logica 2025/:
-  - pdf (italian)
+  - [[file:files/tdm.pdf][pdf]] (italian)
 - My seminar for the Prof. Andretta's course *Descriptive Set Theory*, about Banach-Mazur games:
   - [[file:files/banach-mazur-handout.pdf][handout pdf]] (italian)
   - [[file:files/banach-mazur-slides.pdf][slides pdf]] (italian)
