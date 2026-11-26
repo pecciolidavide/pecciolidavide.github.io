@@ -1,0 +1,146 @@
+/* Look of the site. Same family as the Zettelkasten (~/.doom.d/publish/zk.css)
+   and the CV (2. Areas/Work/Curriculum Vitae/theme/cv.css):
+   - palette, fonts, nav bar and theorem boxes come from zk.css;
+   - sections as coloured boxes and `- date :: text' lists come from cv.css.
+   If you change the palette there, change it here too. */
+
+/* Settings */
+:root {
+  color-scheme: light dark;
+  --bg: #fdfcf9; --fg: #1f2328; --muted: #6a6f76; --line: #e3e0d8;
+  --link: #1f5fa8; --broken: #a33;
+  --def: #2e7d5b; --thm: #1f5fa8; --prop: #5b4ba8; --oss: #8a6d1f; --ex: #8a4f1f;
+  --box: #f5f3ee;
+  --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+  --sans: -apple-system, system-ui, sans-serif;
+  --measure: 46rem;
+  --col: 6.2rem;               /* width of the column of the dates */
+  --sep: 1rem;                 /* space between dates and text */
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #17191c; --fg: #e3e3e0; --muted: #9aa0a6; --line: #33363b;
+    --link: #7fb0ec; --broken: #e48a8a;
+    --def: #6cc59b; --thm: #7fb0ec; --prop: #a99bf0; --oss: #d8b75a; --ex: #e0a06c;
+    --box: #202327;
+  }
+}
+
+/* Base (zk.css) */
+* { box-sizing: border-box; }
+html { font-size: 17px; }
+body {
+  margin: 0; background: var(--bg); color: var(--fg);
+  font-family: var(--serif); line-height: 1.55;
+}
+a { color: var(--link); text-decoration: none; }
+a:hover { text-decoration: underline; }
+h1, h2, h3, h4 { line-height: 1.25; font-weight: 600; }
+h3 { font-size: 1.08rem; margin: 1rem 0 .3rem; }
+b, strong { font-weight: 600; }
+pre, code { font-family: ui-monospace, Menlo, monospace; font-size: .85em; }
+pre { background: var(--box); padding: .7rem; overflow-x: auto; border-radius: 4px; }
+img { max-width: 100%; height: auto; }
+table { border-collapse: collapse; margin: 1rem 0; display: block; overflow-x: auto; }
+td, th { border: 1px solid var(--line); padding: .25rem .5rem; }
+mjx-container[display="true"] { overflow-x: auto; overflow-y: hidden; }
+
+/* Nav bar (zk-nav): name on the left, pages on the right */
+.site-nav {
+  max-width: var(--measure); margin: 0 auto; padding: .4rem 16px .6rem;
+  display: flex; flex-wrap: wrap; justify-content: space-between; gap: .3rem 1.2rem;
+  border-bottom: 1px solid var(--line);
+  font-family: var(--sans); font-size: .85rem;
+}
+.site-nav .site-name { color: var(--fg); font-weight: 600; }
+.site-nav .links { display: flex; flex-wrap: wrap; gap: .3rem 1.2rem; }
+
+#content { max-width: var(--measure); margin: 0 auto; padding: 1rem 16px 2rem; }
+
+/* Title (cv.css header): big name, muted subtitle, line below */
+#content > header {
+  margin: 1.2rem 0 1.4rem; padding-bottom: .6rem; border-bottom: 1px solid var(--line);
+}
+h1.title { margin: 0; font-size: 1.6rem; }
+p.subtitle {
+  margin: .3rem 0 0; font-family: var(--sans); font-size: .85rem; color: var(--muted);
+}
+
+/* Sections (cv.css): boxes with a coloured border; four colours that repeat */
+.outline-2 {
+  --c: var(--def);
+  margin: 1rem 0 0; padding: .55rem .9rem .8rem;
+  border-left: 3px solid var(--c); border-radius: 0 4px 4px 0;
+  background: var(--box);
+}
+.outline-2:nth-of-type(4n+2) { --c: var(--thm); }
+.outline-2:nth-of-type(4n+3) { --c: var(--prop); }
+.outline-2:nth-of-type(4n+4) { --c: var(--oss); }
+h2 { margin: 0 0 .4rem; color: var(--c); font-size: 1.08rem; font-weight: 700; }
+.outline-2 p { margin: .4rem 0; }
+.outline-text-2 > p:first-child { margin-top: 0; }
+.outline-2 > :last-child > :last-child { margin-bottom: 0; }
+
+/* `- text' */
+ul, ol { margin: .4rem 0; padding-left: 1.1rem; }
+li::marker { color: var(--c, var(--muted)); }
+
+/* `- date :: text' (cv.css): dates in a column on the left */
+dl { display: grid; grid-template-columns: var(--col) 1fr; gap: .5rem var(--sep); margin: .4rem 0; }
+dt { font-family: var(--sans); font-size: .82rem; line-height: 1.89; color: var(--muted); font-weight: normal; }
+dd { margin: 0; min-width: 0; }
+dd p { margin: 0; }
+/* `- detail' below an entry: smaller text, no bullet */
+dd ul { margin: 0; padding: 0; list-style: none; font-size: .88rem; color: var(--muted); }
+
+/* Theorem boxes (zk.css), for #+BEGIN_thm ... #+END_thm and friends.
+   Inside a section box they sit on the page background, so they stand out. */
+.definizione, .thm, .prop, .lem, .cor, .oss, .esempio, .proof, .commento {
+  margin: 1rem 0; padding: .55rem .9rem; border-left: 3px solid var(--line);
+  background: var(--box); border-radius: 0 4px 4px 0;
+}
+.outline-2 :is(.definizione, .thm, .prop, .lem, .cor, .oss, .esempio, .proof, .commento) {
+  background: var(--bg);
+}
+.definizione { border-color: var(--def); }
+.thm, .lem, .cor { border-color: var(--thm); }
+.prop { border-color: var(--prop); }
+.oss, .commento { border-color: var(--oss); }
+.esempio { border-color: var(--ex); }
+.proof { background: transparent !important; border-left-style: dotted; }
+.proof > p:last-child::after { content: "∎"; float: right; margin-left: 1em; }
+:is(.definizione, .thm, .prop, .lem, .cor, .oss, .esempio, .proof) > p:first-child { margin-top: 0; }
+:is(.definizione, .thm, .prop, .lem, .cor, .oss, .esempio, .proof) > p:last-child { margin-bottom: 0; }
+/* Label before the first paragraph (plain ox-html has no zk-block-label) */
+:is(.definizione, .thm, .prop, .lem, .cor, .oss, .esempio, .proof) > p:first-child::before {
+  font-weight: 700; margin-right: .3em;
+}
+.definizione > p:first-child::before { content: "Definition."; color: var(--def); }
+.thm > p:first-child::before { content: "Theorem."; color: var(--thm); }
+.lem > p:first-child::before { content: "Lemma."; color: var(--thm); }
+.cor > p:first-child::before { content: "Corollary."; color: var(--thm); }
+.prop > p:first-child::before { content: "Proposition."; color: var(--prop); }
+.oss > p:first-child::before { content: "Remark."; color: var(--oss); }
+.esempio > p:first-child::before { content: "Example."; color: var(--ex); }
+.proof > p:first-child::before { content: "Proof."; font-style: italic; font-weight: 600; }
+
+/* Footer (cv.css, backlinks of zk.css): line above, small sans */
+#postamble { max-width: var(--measure); margin: 0 auto; padding: 0 16px 3rem; }
+#postamble p {
+  margin: 0; padding-top: .6rem; border-top: 1px solid var(--line);
+  font-family: var(--sans); font-size: .8rem; color: var(--muted);
+}
+
+/* Phone: one column */
+@media (max-width: 600px) {
+  dl { display: block; }
+  dt { line-height: 1.4; }
+  dd { margin-bottom: .7rem; }
+  dd:last-child { margin-bottom: 0; }
+}
+
+@media print {
+  html { font-size: 11pt; }
+  .site-nav, #postamble { display: none; }
+  .outline-2 { break-inside: avoid; }
+}

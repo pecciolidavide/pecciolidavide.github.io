@@ -1,0 +1,21 @@
+#+title: Portfolio
+
+* Theses
+:PROPERTIES:
+:CUSTOM_ID: theses
+:END:
+
+- 2026--present :: *Master's thesis*, /Continuous logic within a classical setting/
+  - Supervisor: Prof. Domenico Zambella
+- 2024 :: *Bachelor's thesis*, /Flusso di campi vettoriali su varietà e parentesi di Lie: un approccio non standard/
+  - Supervisor: Prof. Luca Motto Ros
+  - [[https://github.com/pecciolidavide/LT_thesis-public][repo]], [[file:~/Documents/1. Projects/Active/2026-11-26 - sito pecciolidavide/pecciolidavide.github.io/static/files/LT-tesi.pdf][pdf]] (italian)
+
+* Other works
+
+- Some notes about Model Theory, from the Prof. Barbina's course at /Scuola Estiva di Logica 2025/:
+  - pdf (italian)
+- My seminar for the Prof. Andretta's course *Descriptive Set Theory*, about Banach-Mazur games:
+  - [[file:~/Documents/1. Projects/Active/2026-11-26 - sito pecciolidavide/pecciolidavide.github.io/static/files/banach-mazur-handout.pdf][handout pdf]] (italian)
+  - [[file:~/Documents/1. Projects/Active/2026-11-26 - sito pecciolidavide/pecciolidavide.github.io/static/files/banach-mazur-slides.pdf][slides pdf]] (italian)
+  - [[https://github.com/pecciolidavide/LM_tdi-seminario][repo]]
