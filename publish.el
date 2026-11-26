@@ -14,7 +14,7 @@
 
 (defvar site-nav
   "<nav class=\"site-nav\">
-  <a class=\"site-name\" href=\"/\">Davide Peccioli</a>
+  <a class=\"site-name\" href=\"/\">Davide Peccioli's webpage</a>
   <span class=\"links\">
     <a href=\"/portfolio.html\">Portfolio</a>
     <a href=\"https://cv.pecciolidavide.it\">CV</a>
