@@ -36,8 +36,8 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v5
         with:
-          # Upload entire repository
-          path: './_build/'
+          # Upload only the redirect pages
+          path: './public/'
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v5
